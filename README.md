@@ -57,7 +57,7 @@
 
 ### 📋 Prerequisites
 
-Before you begin, ensure you have met the following requirements:
+Ensure you have met the following requirements:
 
 - **Visual Studio 2022** or later
 - **.NET 8 SDK** or later
@@ -113,3 +113,5 @@ GymApp/
         ├── Oracle.ManagedDataAccess.Core (23.4.0)
         └── Newtonsoft.Json (13.0.3)
 ```
+
+Run on Visual Studio 2022 Debug Console
