@@ -9,7 +9,7 @@
 
 **A modern, professional gym management application built with WPF .NET 8 and Oracle Database.**
 
-[📖 Documentation](#-features) • [🚀 Quick Start](#-getting-started) • [📁 Structure](#-project-structure) • [🤝 Contributing](#-contributing)
+[📖 Documentation](#-features) • [🚀 Quick Start](#-getting-started)
 
 </div>
 
