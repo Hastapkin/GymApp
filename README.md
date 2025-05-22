@@ -1,7 +1,5 @@
 # GymApp
 WPF C# .NET8 
-# GymApp
-WPF C# .NET8 
 GymApp/
 ├── GymApp.csproj
 ├── appsettings.json
