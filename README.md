@@ -114,4 +114,4 @@ GymApp/
         └── Newtonsoft.Json (13.0.3)
 ```
 
-Run on Visual Studio 2022 Debug Console
+## 💻 Run on Visual Studio 2022 Debug Console
