@@ -63,7 +63,7 @@ Before you begin, ensure you have met the following requirements:
 - **.NET 8 SDK** or later
 - **Oracle Database 23ai Free**
 - **Git** (for version control)
-
+```
 GymApp/
 │
 ├── 📄 .gitignore                    # Git ignore rules
@@ -112,4 +112,4 @@ GymApp/
     └── 📦 NuGet Packages
         ├── Oracle.ManagedDataAccess.Core (23.4.0)
         └── Newtonsoft.Json (13.0.3)
-        
+```
