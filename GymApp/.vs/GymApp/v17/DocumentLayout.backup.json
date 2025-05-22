@@ -1,0 +1,491 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\phamt\\source\\repos\\GymApp\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|c:\\users\\phamt\\source\\repos\\gymapp\\views\\loginwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|solutionrelative:views\\loginwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|c:\\users\\phamt\\source\\repos\\gymapp\\views\\staffpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|solutionrelative:views\\staffpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|c:\\users\\phamt\\source\\repos\\gymapp\\views\\membershipcardspage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|solutionrelative:views\\membershipcardspage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|c:\\users\\phamt\\source\\repos\\gymapp\\views\\memberspage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|solutionrelative:views\\memberspage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|c:\\users\\phamt\\source\\repos\\gymapp\\helpers\\converters.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|solutionrelative:helpers\\converters.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|c:\\users\\phamt\\source\\repos\\gymapp\\views\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|solutionrelative:views\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|c:\\users\\phamt\\source\\repos\\gymapp\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|solutionrelative:app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|c:\\users\\phamt\\source\\repos\\gymapp\\views\\loginwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|solutionrelative:views\\loginwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|c:\\users\\phamt\\source\\repos\\gymapp\\gymapp.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|solutionrelative:gymapp.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|c:\\users\\phamt\\source\\repos\\gymapp\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|c:\\users\\phamt\\source\\repos\\gymapp\\services\\configurationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|solutionrelative:services\\configurationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|c:\\users\\phamt\\source\\repos\\gymapp\\services\\databaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|solutionrelative:services\\databaseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|c:\\users\\phamt\\source\\repos\\gymapp\\views\\staffpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|solutionrelative:views\\staffpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|c:\\users\\phamt\\source\\repos\\gymapp\\views\\memberspage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|solutionrelative:views\\memberspage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|c:\\users\\phamt\\source\\repos\\gymapp\\views\\membershipcardspage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|solutionrelative:views\\membershipcardspage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|c:\\users\\phamt\\source\\repos\\gymapp\\views\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|solutionrelative:views\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|c:\\users\\phamt\\source\\repos\\gymapp\\viewmodels\\staffviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|solutionrelative:viewmodels\\staffviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|c:\\users\\phamt\\source\\repos\\gymapp\\viewmodels\\membersviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|solutionrelative:viewmodels\\membersviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|c:\\users\\phamt\\source\\repos\\gymapp\\viewmodels\\membershipcardsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|solutionrelative:viewmodels\\membershipcardsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|c:\\users\\phamt\\source\\repos\\gymapp\\viewmodels\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|solutionrelative:viewmodels\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|c:\\users\\phamt\\source\\repos\\gymapp\\viewmodels\\baseviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|solutionrelative:viewmodels\\baseviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|c:\\users\\phamt\\source\\repos\\gymapp\\models\\staff.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|solutionrelative:models\\staff.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|c:\\users\\phamt\\source\\repos\\gymapp\\models\\membershipcard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|solutionrelative:models\\membershipcard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|c:\\users\\phamt\\source\\repos\\gymapp\\models\\member.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|solutionrelative:models\\member.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|c:\\users\\phamt\\source\\repos\\gymapp\\commands\\relaycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|solutionrelative:commands\\relaycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|c:\\users\\phamt\\source\\repos\\gymapp\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|solutionrelative:app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|c:\\users\\phamt\\source\\repos\\gymapp\\assemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2B6D1E94-67BE-468F-8986-E4389F8F0706}|GymApp.csproj|solutionrelative:assemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 27,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Converters.cs",
+              "DocumentMoniker": "C:\\Users\\phamt\\source\\repos\\GymApp\\Helpers\\Converters.cs",
+              "RelativeDocumentMoniker": "Helpers\\Converters.cs",
+              "ToolTip": "C:\\Users\\phamt\\source\\repos\\GymApp\\Helpers\\Converters.cs",
+              "RelativeToolTip": "Helpers\\Converters.cs",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAUwGQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T05:57:35.435Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\phamt\\source\\repos\\GymApp\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "C:\\Users\\phamt\\source\\repos\\GymApp\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-05-22T05:20:03.425Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "GymApp",
+              "DocumentMoniker": "C:\\Users\\phamt\\source\\repos\\GymApp\\GymApp.csproj",
+              "RelativeDocumentMoniker": "GymApp.csproj",
+              "ToolTip": "C:\\Users\\phamt\\source\\repos\\GymApp\\GymApp.csproj",
+              "RelativeToolTip": "GymApp.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-05-22T05:19:20.336Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ConfigurationService.cs",
+              "DocumentMoniker": "C:\\Users\\phamt\\source\\repos\\GymApp\\Services\\ConfigurationService.cs",
+              "RelativeDocumentMoniker": "Services\\ConfigurationService.cs",
+              "ToolTip": "C:\\Users\\phamt\\source\\repos\\GymApp\\Services\\ConfigurationService.cs",
+              "RelativeToolTip": "Services\\ConfigurationService.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAAkwGAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T05:19:08.858Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "StaffPage.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\phamt\\source\\repos\\GymApp\\Views\\StaffPage.xaml.cs",
+              "RelativeDocumentMoniker": "Views\\StaffPage.xaml.cs",
+              "ToolTip": "C:\\Users\\phamt\\source\\repos\\GymApp\\Views\\StaffPage.xaml.cs",
+              "RelativeToolTip": "Views\\StaffPage.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T05:10:19.734Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "MembershipCardsPage.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\phamt\\source\\repos\\GymApp\\Views\\MembershipCardsPage.xaml.cs",
+              "RelativeDocumentMoniker": "Views\\MembershipCardsPage.xaml.cs",
+              "ToolTip": "C:\\Users\\phamt\\source\\repos\\GymApp\\Views\\MembershipCardsPage.xaml.cs",
+              "RelativeToolTip": "Views\\MembershipCardsPage.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T05:10:12.713Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "MembersPage.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\phamt\\source\\repos\\GymApp\\Views\\MembersPage.xaml.cs",
+              "RelativeDocumentMoniker": "Views\\MembersPage.xaml.cs",
+              "ToolTip": "C:\\Users\\phamt\\source\\repos\\GymApp\\Views\\MembersPage.xaml.cs",
+              "RelativeToolTip": "Views\\MembersPage.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T05:09:48.415Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\phamt\\source\\repos\\GymApp\\Views\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "Views\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\phamt\\source\\repos\\GymApp\\Views\\MainWindow.xaml.cs",
+              "RelativeToolTip": "Views\\MainWindow.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T04:48:00.416Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "LoginWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\phamt\\source\\repos\\GymApp\\Views\\LoginWindow.xaml.cs",
+              "RelativeDocumentMoniker": "Views\\LoginWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\phamt\\source\\repos\\GymApp\\Views\\LoginWindow.xaml.cs",
+              "RelativeToolTip": "Views\\LoginWindow.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T05:08:55.303Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "RelayCommand.cs",
+              "DocumentMoniker": "C:\\Users\\phamt\\source\\repos\\GymApp\\Commands\\RelayCommand.cs",
+              "RelativeDocumentMoniker": "Commands\\RelayCommand.cs",
+              "ToolTip": "C:\\Users\\phamt\\source\\repos\\GymApp\\Commands\\RelayCommand.cs",
+              "RelativeToolTip": "Commands\\RelayCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T04:48:55.946Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "Member.cs",
+              "DocumentMoniker": "C:\\Users\\phamt\\source\\repos\\GymApp\\Models\\Member.cs",
+              "RelativeDocumentMoniker": "Models\\Member.cs",
+              "ToolTip": "C:\\Users\\phamt\\source\\repos\\GymApp\\Models\\Member.cs",
+              "RelativeToolTip": "Models\\Member.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAAAFQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T04:48:55.36Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "MembershipCard.cs",
+              "DocumentMoniker": "C:\\Users\\phamt\\source\\repos\\GymApp\\Models\\MembershipCard.cs",
+              "RelativeDocumentMoniker": "Models\\MembershipCard.cs",
+              "ToolTip": "C:\\Users\\phamt\\source\\repos\\GymApp\\Models\\MembershipCard.cs",
+              "RelativeToolTip": "Models\\MembershipCard.cs",
+              "ViewState": "AgIAADcAAAAAAAAAAAAqwGgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T04:48:54.924Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "Staff.cs",
+              "DocumentMoniker": "C:\\Users\\phamt\\source\\repos\\GymApp\\Models\\Staff.cs",
+              "RelativeDocumentMoniker": "Models\\Staff.cs",
+              "ToolTip": "C:\\Users\\phamt\\source\\repos\\GymApp\\Models\\Staff.cs",
+              "RelativeToolTip": "Models\\Staff.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAAAFQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T04:48:54.454Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "DatabaseService.cs",
+              "DocumentMoniker": "C:\\Users\\phamt\\source\\repos\\GymApp\\Services\\DatabaseService.cs",
+              "RelativeDocumentMoniker": "Services\\DatabaseService.cs",
+              "ToolTip": "C:\\Users\\phamt\\source\\repos\\GymApp\\Services\\DatabaseService.cs",
+              "RelativeToolTip": "Services\\DatabaseService.cs",
+              "ViewState": "AgIAAGMBAAAAAAAAAAAkwJMBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T04:48:53.776Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "BaseViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\phamt\\source\\repos\\GymApp\\ViewModels\\BaseViewModel.cs",
+              "RelativeDocumentMoniker": "ViewModels\\BaseViewModel.cs",
+              "ToolTip": "C:\\Users\\phamt\\source\\repos\\GymApp\\ViewModels\\BaseViewModel.cs",
+              "RelativeToolTip": "ViewModels\\BaseViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T04:48:53.207Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "MainViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\phamt\\source\\repos\\GymApp\\ViewModels\\MainViewModel.cs",
+              "RelativeDocumentMoniker": "ViewModels\\MainViewModel.cs",
+              "ToolTip": "C:\\Users\\phamt\\source\\repos\\GymApp\\ViewModels\\MainViewModel.cs",
+              "RelativeToolTip": "ViewModels\\MainViewModel.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAAADUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T04:48:52.784Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "MembershipCardsViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\phamt\\source\\repos\\GymApp\\ViewModels\\MembershipCardsViewModel.cs",
+              "RelativeDocumentMoniker": "ViewModels\\MembershipCardsViewModel.cs",
+              "ToolTip": "C:\\Users\\phamt\\source\\repos\\GymApp\\ViewModels\\MembershipCardsViewModel.cs",
+              "RelativeToolTip": "ViewModels\\MembershipCardsViewModel.cs",
+              "ViewState": "AgIAAGIAAAAAAAAAAAAAAJMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T04:48:52.286Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "MembersViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\phamt\\source\\repos\\GymApp\\ViewModels\\MembersViewModel.cs",
+              "RelativeDocumentMoniker": "ViewModels\\MembersViewModel.cs",
+              "ToolTip": "C:\\Users\\phamt\\source\\repos\\GymApp\\ViewModels\\MembersViewModel.cs",
+              "RelativeToolTip": "ViewModels\\MembersViewModel.cs",
+              "ViewState": "AgIAAIQAAAAAAAAAAAAAALUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T04:48:51.822Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "StaffViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\phamt\\source\\repos\\GymApp\\ViewModels\\StaffViewModel.cs",
+              "RelativeDocumentMoniker": "ViewModels\\StaffViewModel.cs",
+              "ToolTip": "C:\\Users\\phamt\\source\\repos\\GymApp\\ViewModels\\StaffViewModel.cs",
+              "RelativeToolTip": "ViewModels\\StaffViewModel.cs",
+              "ViewState": "AgIAAFsAAAAAAAAAAAAAAIwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T04:48:51.176Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "App.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\phamt\\source\\repos\\GymApp\\App.xaml.cs",
+              "RelativeDocumentMoniker": "App.xaml.cs",
+              "ToolTip": "C:\\Users\\phamt\\source\\repos\\GymApp\\App.xaml.cs",
+              "RelativeToolTip": "App.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T04:48:49.995Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "AssemblyInfo.cs",
+              "DocumentMoniker": "C:\\Users\\phamt\\source\\repos\\GymApp\\AssemblyInfo.cs",
+              "RelativeDocumentMoniker": "AssemblyInfo.cs",
+              "ToolTip": "C:\\Users\\phamt\\source\\repos\\GymApp\\AssemblyInfo.cs",
+              "RelativeToolTip": "AssemblyInfo.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T04:48:48.85Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "App.xaml",
+              "DocumentMoniker": "C:\\Users\\phamt\\source\\repos\\GymApp\\App.xaml",
+              "RelativeDocumentMoniker": "App.xaml",
+              "ToolTip": "C:\\Users\\phamt\\source\\repos\\GymApp\\App.xaml",
+              "RelativeToolTip": "App.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-05-22T04:48:46.607Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "StaffPage.xaml",
+              "DocumentMoniker": "C:\\Users\\phamt\\source\\repos\\GymApp\\Views\\StaffPage.xaml",
+              "RelativeDocumentMoniker": "Views\\StaffPage.xaml",
+              "ToolTip": "C:\\Users\\phamt\\source\\repos\\GymApp\\Views\\StaffPage.xaml",
+              "RelativeToolTip": "Views\\StaffPage.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-05-22T04:48:35.012Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MembershipCardsPage.xaml",
+              "DocumentMoniker": "C:\\Users\\phamt\\source\\repos\\GymApp\\Views\\MembershipCardsPage.xaml",
+              "RelativeDocumentMoniker": "Views\\MembershipCardsPage.xaml",
+              "ToolTip": "C:\\Users\\phamt\\source\\repos\\GymApp\\Views\\MembershipCardsPage.xaml",
+              "RelativeToolTip": "Views\\MembershipCardsPage.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-05-22T04:47:49.548Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MembersPage.xaml",
+              "DocumentMoniker": "C:\\Users\\phamt\\source\\repos\\GymApp\\Views\\MembersPage.xaml",
+              "RelativeDocumentMoniker": "Views\\MembersPage.xaml",
+              "ToolTip": "C:\\Users\\phamt\\source\\repos\\GymApp\\Views\\MembersPage.xaml",
+              "RelativeToolTip": "Views\\MembersPage.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-05-22T04:47:34.955Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\phamt\\source\\repos\\GymApp\\Views\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "Views\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\phamt\\source\\repos\\GymApp\\Views\\MainWindow.xaml",
+              "RelativeToolTip": "Views\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-05-22T04:46:22.882Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "LoginWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\phamt\\source\\repos\\GymApp\\Views\\LoginWindow.xaml",
+              "RelativeDocumentMoniker": "Views\\LoginWindow.xaml",
+              "ToolTip": "C:\\Users\\phamt\\source\\repos\\GymApp\\Views\\LoginWindow.xaml",
+              "RelativeToolTip": "Views\\LoginWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-05-22T04:46:21.722Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 365,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
