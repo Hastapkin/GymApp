@@ -1,0 +1,197 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# The above will handle all files NOT found below
+
+# These files are text and should be normalized (Convert crlf => lf)
+*.cs        text diff=csharp
+*.csx       text diff=csharp
+*.vb        text
+*.vbx       text
+*.fs        text
+*.fsx       text
+*.fsi       text
+*.fsproj    text
+*.sln       text eol=crlf
+*.csproj    text
+*.vbproj    text
+*.vcxproj   text
+*.vcproj    text
+*.dbproj    text
+*.fsproj    text
+*.lsproj    text
+*.wixproj   text
+*.modelproj text
+*.sqlproj   text
+*.wmaproj   text
+*.xproj     text
+*.props     text
+*.filters   text
+*.vcxitems  text
+*.targets   text
+
+# XML files
+*.xml       text
+*.xaml      text
+*.config    text
+*.nuspec    text
+*.resx      text
+*.ruleset   text
+*.vsixmanifest text
+*.vsct      text
+
+# JSON files
+*.json      text
+*.jsonc     text
+
+# JavaScript files
+*.js        text
+*.jsx       text
+*.ts        text
+*.tsx       text
+
+# CSS files
+*.css       text
+*.scss      text
+*.sass      text
+*.less      text
+
+# HTML files
+*.html      text
+*.htm       text
+
+# Markdown files
+*.md        text
+*.markdown  text
+
+# PowerShell files
+*.ps1       text eol=crlf
+*.psm1      text eol=crlf
+*.psd1      text eol=crlf
+*.ps1xml    text eol=crlf
+*.pssc      text eol=crlf
+*.psrc      text eol=crlf
+*.cdxml     text eol=crlf
+
+# Batch files
+*.bat       text eol=crlf
+*.cmd       text eol=crlf
+
+# Shell scripts
+*.sh        text eol=lf
+*.bash      text eol=lf
+
+# Documentation
+*.txt       text
+*.rtf       text
+*.doc       diff=astextplain
+*.DOC       diff=astextplain
+*.docx      diff=astextplain
+*.DOCX      diff=astextplain
+*.dot       diff=astextplain
+*.DOT       diff=astextplain
+*.pdf       diff=astextplain
+*.PDF       diff=astextplain
+
+# Graphics
+*.png       binary
+*.jpg       binary
+*.jpeg      binary
+*.gif       binary
+*.tif       binary
+*.tiff      binary
+*.ico       binary
+*.svg       text
+*.eps       binary
+*.ai        binary
+*.bmp       binary
+
+# Audio
+*.mp3       binary
+*.wav       binary
+*.wma       binary
+*.ogg       binary
+*.flac      binary
+
+# Video
+*.mp4       binary
+*.avi       binary
+*.mov       binary
+*.wmv       binary
+*.flv       binary
+*.webm      binary
+
+# Archives
+*.7z        binary
+*.gz        binary
+*.tar       binary
+*.zip       binary
+*.rar       binary
+
+# Executables
+*.exe       binary
+*.dll       binary
+*.so        binary
+*.dylib     binary
+
+# Fonts
+*.ttf       binary
+*.eot       binary
+*.woff      binary
+*.woff2     binary
+
+# Database files
+*.db        binary
+*.sqlite    binary
+*.sqlite3   binary
+*.mdb       binary
+*.accdb     binary
+
+# Certificate files
+*.pfx       binary
+*.p12       binary
+*.cer       binary
+*.crt       binary
+*.der       binary
+*.key       binary
+
+# Other binary files
+*.swf       binary
+*.fla       binary
+*.class     binary
+*.jar       binary
+
+# NuGet packages
+*.nupkg     binary
+
+# Visual Studio files
+*.vspscc    text eol=crlf
+*.vssscc    text eol=crlf
+*.vsscc     text eol=crlf
+*.vspscc    text eol=crlf
+
+# Ignore files (like .gitignore) should use LF
+.gitignore  text eol=lf
+.gitattributes text eol=lf
+
+# Configuration files
+*.ini       text
+*.cfg       text
+*.conf      text
+*.properties text
+
+# Log files
+*.log       text
+
+# Linguist language detection
+*.sql       linguist-language=SQL
+*.cs        linguist-language=C#
+*.xaml      linguist-language=XML
+
+# Export ignore (files that should not be exported)
+.gitattributes export-ignore
+.gitignore     export-ignore
+*.tmp          export-ignore
+*.log          export-ignore
+
+# End of .gitattributes

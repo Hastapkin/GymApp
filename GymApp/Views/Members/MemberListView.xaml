@@ -1,0 +1,75 @@
+﻿<UserControl x:Class="GymApp.Views.Members.MemberListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:helpers="clr-namespace:GymApp.Helpers">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Show sub-view if CurrentView is not null -->
+        <ContentControl Grid.Row="0" Grid.RowSpan="2"
+                        Content="{Binding CurrentView}"
+                        Visibility="{Binding CurrentView, Converter={x:Static helpers:NullToVisibilityConverter.Instance}}"/>
+
+        <!-- Main member list view -->
+        <Grid Grid.Row="0" Grid.RowSpan="2"
+              Visibility="{Binding CurrentView, Converter={x:Static helpers:NullToVisibilityConverter.Inverse}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <TextBlock Grid.Row="0" 
+                       Text="Members Management" 
+                       Style="{StaticResource HeaderTextStyle}"/>
+
+            <!-- Action Buttons -->
+            <StackPanel Grid.Row="1" 
+                        Orientation="Horizontal" 
+                        Margin="10">
+                <Button Content="Add Member" 
+                        Command="{Binding CreateMemberCommand}"/>
+                <Button Content="Edit Member" 
+                        Command="{Binding EditMemberCommand}"/>
+                <Button Content="Delete Member" 
+                        Command="{Binding DeleteMemberCommand}"/>
+            </StackPanel>
+
+            <!-- Members DataGrid -->
+            <DataGrid Grid.Row="2"
+                      ItemsSource="{Binding Members}"
+                      SelectedItem="{Binding SelectedMember}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" 
+                                        Binding="{Binding Id}" 
+                                        Width="60"/>
+                    <DataGridTextColumn Header="Full Name" 
+                                        Binding="{Binding FullName}" 
+                                        Width="200"/>
+                    <DataGridTextColumn Header="Phone" 
+                                        Binding="{Binding Phone}" 
+                                        Width="120"/>
+                    <DataGridTextColumn Header="Email" 
+                                        Binding="{Binding Email}" 
+                                        Width="200"/>
+                    <DataGridTextColumn Header="Gender" 
+                                        Binding="{Binding Gender}" 
+                                        Width="80"/>
+                    <DataGridTextColumn Header="Date of Birth" 
+                                        Binding="{Binding DateOfBirth, StringFormat=dd/MM/yyyy}" 
+                                        Width="120"/>
+                    <DataGridTextColumn Header="Join Date" 
+                                        Binding="{Binding JoinDate, StringFormat=dd/MM/yyyy}" 
+                                        Width="120"/>
+                    <DataGridTextColumn Header="Address" 
+                                        Binding="{Binding Address}" 
+                                        Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Grid>
+</UserControl>
