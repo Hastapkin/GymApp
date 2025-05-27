@@ -26,7 +26,7 @@ GymApp.csproj
 │   │   ├── 📄 PackagesCreateViewModel.cs
 │   │   ├── 📄 PackagesEditViewModel.cs
 │   │   └── 📄 PackagesListViewModel.cs
-│   ├── 📁 Membership
+│   ├── 📁 MembershipCards
 │   │   ├── 📄 MembershipCardsCreateViewModel.cs
 │   │   ├── 📄 MembershipCardsEditViewModel.cs
 │   │   └── 📄 MembershipCardsListViewModel.cs
