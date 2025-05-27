@@ -11,13 +11,13 @@
     <Compile Update="Views\LoginView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Memberships\MembershipCreateView.xaml.cs">
+    <Compile Update="Views\MembershipCards\MembershipCardsCreateView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Memberships\MembershipEditView.xaml.cs">
+    <Compile Update="Views\MembershipCards\MembershipCardsEditView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Memberships\MembershipListView.xaml.cs">
+    <Compile Update="Views\MembershipCards\MembershipCardsListView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Members\MemberCreateView.xaml.cs">
@@ -27,6 +27,24 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Members\MemberListView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Members_Info\Members_InfoCreateView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Members_Info\Members_InfoEditView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Members_Info\Members_InfoListView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Packages\PackagesCreateView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Packages\PackagesEditView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Packages\PackagesListView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Staffs\StaffCreateView.xaml.cs">

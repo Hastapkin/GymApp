@@ -9,17 +9,14 @@
         </Grid.RowDefinitions>
 
         <!-- Header with Navigation -->
-        <Border Grid.Row="0" 
-                Background="#2196F3" 
-                Padding="10">
+        <Border Grid.Row="0" Background="#2196F3" Padding="10">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0" 
-                            Orientation="Horizontal">
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
                     <TextBlock Text="Gym Management System" 
                                Foreground="White" 
                                FontSize="18" 
@@ -31,8 +28,12 @@
                             Command="{Binding NavigateToMembersCommand}"
                             Style="{StaticResource MenuButtonStyle}"/>
 
-                    <Button Content="Memberships" 
-                            Command="{Binding NavigateToMembershipsCommand}"
+                    <Button Content="Packages" 
+                            Command="{Binding NavigateToPackagesCommand}"
+                            Style="{StaticResource MenuButtonStyle}"/>
+
+                    <Button Content="Membership Cards" 
+                            Command="{Binding NavigateToMembershipCardsCommand}"
                             Style="{StaticResource MenuButtonStyle}"/>
 
                     <Button Content="Staff" 
@@ -60,8 +61,6 @@
         </Border>
 
         <!-- Content Area -->
-        <ContentControl Grid.Row="1" 
-                        Content="{Binding CurrentView}"
-                        Margin="0"/>
+        <ContentControl Grid.Row="1" Content="{Binding CurrentView}" Margin="0"/>
     </Grid>
 </UserControl>

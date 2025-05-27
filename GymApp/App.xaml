@@ -2,15 +2,19 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:memberViews="clr-namespace:GymApp.Views.Members"
-             xmlns:membershipViews="clr-namespace:GymApp.Views.Memberships"
+             xmlns:membershipViews="clr-namespace:GymApp.Views.MembershipCards"
+             xmlns:packageViews="clr-namespace:GymApp.Views.Packages"
              xmlns:staffViews="clr-namespace:GymApp.Views.Staffs"
              xmlns:memberVm="clr-namespace:GymApp.ViewModels.Member"
              xmlns:membershipVm="clr-namespace:GymApp.ViewModels.Membership"
+             xmlns:packageVm="clr-namespace:GymApp.ViewModels.Packages"
              xmlns:staffVm="clr-namespace:GymApp.ViewModels.Staff"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
 
-        <!-- DataTemplates for ViewModels -->
+        <!-- DataTemplates for ViewModels theo đúng README structure -->
+
+        <!-- Member ViewModels -->
         <DataTemplate DataType="{x:Type memberVm:MemberListViewModel}">
             <memberViews:MemberListView/>
         </DataTemplate>
@@ -23,18 +27,33 @@
             <memberViews:MemberEditView/>
         </DataTemplate>
 
-        <DataTemplate DataType="{x:Type membershipVm:MembershipListViewModel}">
-            <membershipViews:MembershipListView/>
+        <!-- Packages ViewModels -->
+        <DataTemplate DataType="{x:Type packageVm:PackagesListViewModel}">
+            <packageViews:PackagesListView/>
         </DataTemplate>
 
-        <DataTemplate DataType="{x:Type membershipVm:MembershipCreateViewModel}">
-            <membershipViews:MembershipCreateView/>
+        <DataTemplate DataType="{x:Type packageVm:PackagesCreateViewModel}">
+            <packageViews:PackagesCreateView/>
         </DataTemplate>
 
-        <DataTemplate DataType="{x:Type membershipVm:MembershipEditViewModel}">
-            <membershipViews:MembershipEditView/>
+        <DataTemplate DataType="{x:Type packageVm:PackagesEditViewModel}">
+            <packageViews:PackagesEditView/>
         </DataTemplate>
 
+        <!-- MembershipCards ViewModels -->
+        <DataTemplate DataType="{x:Type membershipVm:MembershipCardsListViewModel}">
+            <membershipViews:MembershipCardsListView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type membershipVm:MembershipCardsCreateViewModel}">
+            <membershipViews:MembershipCardsCreateView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type membershipVm:MembershipCardsEditViewModel}">
+            <membershipViews:MembershipCardsEditView/>
+        </DataTemplate>
+
+        <!-- Staff ViewModels -->
         <DataTemplate DataType="{x:Type staffVm:StaffListViewModel}">
             <staffViews:StaffListView/>
         </DataTemplate>

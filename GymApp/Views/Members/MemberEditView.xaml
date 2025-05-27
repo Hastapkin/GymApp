@@ -8,80 +8,48 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Header -->
-        <TextBlock Grid.Row="0" 
-                   Text="Edit Member" 
-                   Style="{StaticResource HeaderTextStyle}"/>
+        <TextBlock Grid.Row="0" Text="Edit Member" Style="{StaticResource HeaderTextStyle}"/>
 
-        <!-- Form -->
-        <ScrollViewer Grid.Row="1" 
-                      VerticalScrollBarVisibility="Auto">
-            <Grid MaxWidth="600" 
-                  HorizontalAlignment="Left">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+        <Grid Grid.Row="1" MaxWidth="600" HorizontalAlignment="Left">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-                <Label Grid.Row="0" Grid.Column="0" Content="Full Name *:" />
-                <TextBox Grid.Row="0" Grid.Column="1" 
-                         Text="{Binding FullName, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Grid.Row="0" Grid.Column="0" Content="Full Name *:"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding FullName, UpdateSourceTrigger=PropertyChanged}"/>
 
-                <Label Grid.Row="1" Grid.Column="0" Content="Phone:" />
-                <TextBox Grid.Row="1" Grid.Column="1" 
-                         Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Grid.Row="1" Grid.Column="0" Content="Phone:"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}"/>
 
-                <Label Grid.Row="2" Grid.Column="0" Content="Email:" />
-                <TextBox Grid.Row="2" Grid.Column="1" 
-                         Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Grid.Row="2" Grid.Column="0" Content="Email:"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"/>
 
-                <Label Grid.Row="3" Grid.Column="0" Content="Gender:" />
-                <ComboBox Grid.Row="3" Grid.Column="1" 
-                          ItemsSource="{Binding Genders}"
-                          SelectedItem="{Binding Gender}"/>
+            <Label Grid.Row="3" Grid.Column="0" Content="Gender:"/>
+            <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Genders}" SelectedItem="{Binding Gender}"/>
 
-                <Label Grid.Row="4" Grid.Column="0" Content="Date of Birth:" />
-                <DatePicker Grid.Row="4" Grid.Column="1" 
-                            SelectedDate="{Binding DateOfBirth}"/>
+            <Label Grid.Row="4" Grid.Column="0" Content="Date of Birth:"/>
+            <DatePicker Grid.Row="4" Grid.Column="1" SelectedDate="{Binding DateOfBirth}"/>
 
-                <Label Grid.Row="5" Grid.Column="0" Content="Address:" />
-                <TextBox Grid.Row="5" Grid.Column="1" 
-                         Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}"
-                         Height="60"
-                         TextWrapping="Wrap"
-                         AcceptsReturn="True"
-                         VerticalScrollBarVisibility="Auto"/>
+            <Label Grid.Row="5" Grid.Column="0" Content="Address:"/>
+            <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}" Height="60" TextWrapping="Wrap"/>
 
-                <Label Grid.Row="6" Grid.Column="0" Content="Notes:" />
-                <TextBox Grid.Row="6" Grid.Column="1" 
-                         Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}"
-                         Height="80"
-                         TextWrapping="Wrap"
-                         AcceptsReturn="True"
-                         VerticalScrollBarVisibility="Auto"/>
-            </Grid>
-        </ScrollViewer>
+            <Label Grid.Row="6" Grid.Column="0" Content="Notes:"/>
+            <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}" Height="80" TextWrapping="Wrap"/>
+        </Grid>
 
-        <!-- Action Buttons -->
-        <StackPanel Grid.Row="2" 
-                    Orientation="Horizontal" 
-                    HorizontalAlignment="Right"
-                    Margin="0,20,0,0">
-            <Button Content="Save" 
-                    Command="{Binding SaveCommand}"
-                    Background="#4CAF50"
-                    Foreground="White"/>
-            <Button Content="Cancel" 
-                    Command="{Binding CancelCommand}"/>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button Content="Save" Command="{Binding SaveCommand}" Background="#4CAF50" Foreground="White"/>
+            <Button Content="Cancel" Command="{Binding CancelCommand}"/>
         </StackPanel>
     </Grid>
 </UserControl>

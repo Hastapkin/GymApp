@@ -23,102 +23,65 @@ namespace GymApp.ViewModels.Staff
             _dbContext = new DbContext();
             SaveCommand = new RelayCommand(Save, CanSave);
             CancelCommand = new RelayCommand(Cancel);
-
             Roles = new[] { "Lao công", "Thu ngân", "Quản lý", "Huấn luyện viên" };
         }
 
         public string FullName
         {
             get => _fullName;
-            set
-            {
-                _fullName = value;
-                OnPropertyChanged(nameof(FullName));
-            }
+            set { _fullName = value; OnPropertyChanged(nameof(FullName)); }
         }
 
         public string Phone
         {
             get => _phone;
-            set
-            {
-                _phone = value;
-                OnPropertyChanged(nameof(Phone));
-            }
+            set { _phone = value; OnPropertyChanged(nameof(Phone)); }
         }
 
         public string Email
         {
             get => _email;
-            set
-            {
-                _email = value;
-                OnPropertyChanged(nameof(Email));
-            }
+            set { _email = value; OnPropertyChanged(nameof(Email)); }
         }
 
         public string Role
         {
             get => _role;
-            set
-            {
-                _role = value;
-                OnPropertyChanged(nameof(Role));
-            }
+            set { _role = value; OnPropertyChanged(nameof(Role)); }
         }
 
         public DateTime StartDate
         {
             get => _startDate;
-            set
-            {
-                _startDate = value;
-                OnPropertyChanged(nameof(StartDate));
-            }
+            set { _startDate = value; OnPropertyChanged(nameof(StartDate)); }
         }
 
         public decimal Salary
         {
             get => _salary;
-            set
-            {
-                _salary = value;
-                OnPropertyChanged(nameof(Salary));
-            }
+            set { _salary = value; OnPropertyChanged(nameof(Salary)); }
         }
 
         public string Address
         {
             get => _address;
-            set
-            {
-                _address = value;
-                OnPropertyChanged(nameof(Address));
-            }
+            set { _address = value; OnPropertyChanged(nameof(Address)); }
         }
 
         public string Notes
         {
             get => _notes;
-            set
-            {
-                _notes = value;
-                OnPropertyChanged(nameof(Notes));
-            }
+            set { _notes = value; OnPropertyChanged(nameof(Notes)); }
         }
 
         public string[] Roles { get; }
-
         public ICommand SaveCommand { get; }
         public ICommand CancelCommand { get; }
 
         public event Action? StaffCreated;
         public event Action? CancelRequested;
 
-        private bool CanSave(object? parameter)
-        {
-            return !string.IsNullOrWhiteSpace(FullName) && !string.IsNullOrWhiteSpace(Role);
-        }
+        private bool CanSave(object? parameter) => !string.IsNullOrWhiteSpace(FullName) && !string.IsNullOrWhiteSpace(Role);
 
         private async void Save(object? parameter)
         {
@@ -134,7 +97,8 @@ namespace GymApp.ViewModels.Staff
                     Salary = Salary,
                     Address = Address,
                     Notes = Notes,
-                    IsActive = true
+                    IsActive = true,
+                    CreatedDate = DateTime.Now
                 };
 
                 await _dbContext.CreateStaffAsync(staff);
@@ -146,13 +110,9 @@ namespace GymApp.ViewModels.Staff
             }
         }
 
-        private void Cancel(object? parameter)
-        {
-            CancelRequested?.Invoke();
-        }
+        private void Cancel(object? parameter) => CancelRequested?.Invoke();
 
         public event PropertyChangedEventHandler? PropertyChanged;
-
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

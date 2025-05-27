@@ -22,92 +22,59 @@ namespace GymApp.ViewModels.Member
             _dbContext = new DbContext();
             SaveCommand = new RelayCommand(Save, CanSave);
             CancelCommand = new RelayCommand(Cancel);
-
             Genders = new[] { "Nam", "Nữ", "Khác" };
         }
 
         public string FullName
         {
             get => _fullName;
-            set
-            {
-                _fullName = value;
-                OnPropertyChanged(nameof(FullName));
-            }
+            set { _fullName = value; OnPropertyChanged(nameof(FullName)); }
         }
 
         public string Phone
         {
             get => _phone;
-            set
-            {
-                _phone = value;
-                OnPropertyChanged(nameof(Phone));
-            }
+            set { _phone = value; OnPropertyChanged(nameof(Phone)); }
         }
 
         public string Email
         {
             get => _email;
-            set
-            {
-                _email = value;
-                OnPropertyChanged(nameof(Email));
-            }
+            set { _email = value; OnPropertyChanged(nameof(Email)); }
         }
 
         public string Gender
         {
             get => _gender;
-            set
-            {
-                _gender = value;
-                OnPropertyChanged(nameof(Gender));
-            }
+            set { _gender = value; OnPropertyChanged(nameof(Gender)); }
         }
 
         public DateTime? DateOfBirth
         {
             get => _dateOfBirth;
-            set
-            {
-                _dateOfBirth = value;
-                OnPropertyChanged(nameof(DateOfBirth));
-            }
+            set { _dateOfBirth = value; OnPropertyChanged(nameof(DateOfBirth)); }
         }
 
         public string Address
         {
             get => _address;
-            set
-            {
-                _address = value;
-                OnPropertyChanged(nameof(Address));
-            }
+            set { _address = value; OnPropertyChanged(nameof(Address)); }
         }
 
         public string Notes
         {
             get => _notes;
-            set
-            {
-                _notes = value;
-                OnPropertyChanged(nameof(Notes));
-            }
+            set { _notes = value; OnPropertyChanged(nameof(Notes)); }
         }
 
         public string[] Genders { get; }
-
         public ICommand SaveCommand { get; }
         public ICommand CancelCommand { get; }
 
         public event Action? MemberCreated;
         public event Action? CancelRequested;
 
-        private bool CanSave(object? parameter)
-        {
-            return !string.IsNullOrWhiteSpace(FullName);
-        }
+        private bool CanSave(object? parameter) => !string.IsNullOrWhiteSpace(FullName);
 
         private async void Save(object? parameter)
         {
@@ -135,13 +102,9 @@ namespace GymApp.ViewModels.Member
             }
         }
 
-        private void Cancel(object? parameter)
-        {
-            CancelRequested?.Invoke();
-        }
+        private void Cancel(object? parameter) => CancelRequested?.Invoke();
 
         public event PropertyChangedEventHandler? PropertyChanged;
-
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
