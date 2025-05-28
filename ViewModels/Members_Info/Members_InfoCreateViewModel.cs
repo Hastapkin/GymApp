@@ -169,7 +169,7 @@ namespace GymApp.ViewModels.Members_Info
                 using var transaction = connection.BeginTransaction();
                 try
                 {
-                    // 1. Insert Member
+                    // ✅ FIX: 1. Insert Member - Sử dụng IDENTITY sequence
                     string memberSql = @"INSERT INTO Members (FullName, Phone, Email, Gender, DateOfBirth, Address, 
                                         JoinDate, IsActive, Notes, CreatedDate, UpdatedDate) 
                                         VALUES (:fullName, :phone, :email, :gender, :dateOfBirth, :address, 
@@ -202,7 +202,7 @@ namespace GymApp.ViewModels.Members_Info
                         memberId = Convert.ToInt32(memberIdParam.Value);
                     }
 
-                    // 2. Insert MembershipCard
+                    // ✅ FIX: 2. Insert MembershipCard - Sử dụng IDENTITY sequence
                     string membershipSql = @"INSERT INTO MembershipCards (MemberId, PackageId, StartDate, EndDate, Price, 
                                            PaymentMethod, Status, Notes, CreatedDate, CreatedBy) 
                                            VALUES (:memberId, :packageId, :startDate, :endDate, :price, 
@@ -226,7 +226,8 @@ namespace GymApp.ViewModels.Members_Info
                     }
 
                     transaction.Commit();
-                    MessageBox.Show("Tạo thành viên và thẻ tập thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show($"Tạo thành viên và thẻ tập thành công!\nThành viên ID: {memberId}\nThẻ tập: {SelectedPackage.PackageName}",
+                                  "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
                     RequestClose?.Invoke(true);
                 }
                 catch (Exception ex)

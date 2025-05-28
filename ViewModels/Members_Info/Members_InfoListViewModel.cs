@@ -47,7 +47,7 @@ namespace GymApp.ViewModels.Members_Info
             "Tất cả",
             "Còn hạn",
             "Hết hạn",
-            "Sắp hết hạn" // < 7 days
+            "Sắp hết hạn" // <= 7 days
         };
 
         public ICommand LoadDataCommand { get; }
@@ -82,11 +82,10 @@ namespace GymApp.ViewModels.Members_Info
                 using var connection = _dbContext.GetConnection();
                 connection.Open();
 
-                // ✅ FIX: ORDER BY Id ASC để member mới (ID lớn hơn) xuất hiện ở cuối
                 string sql = @"SELECT Id, FullName, Phone, Email, Gender, JoinDate, StartDate, EndDate, 
                               PackageName, Price, Status, MembershipStatus, DaysRemaining 
                               FROM V_MemberInfo 
-                              ORDER BY Id ASC, DaysRemaining ASC"; // ← QUAN TRỌNG: Id tăng dần = member mới ở cuối
+                              ORDER BY Id ASC, DaysRemaining ASC";
 
                 using var cmd = new OracleCommand(sql, connection);
                 using var reader = cmd.ExecuteReader();
@@ -113,13 +112,6 @@ namespace GymApp.ViewModels.Members_Info
                 }
 
                 FilterData();
-
-                // Debug để xác nhận thứ tự
-                System.Diagnostics.Debug.WriteLine($"Members_Info loaded in order:");
-                for (int i = 0; i < _allMembersInfo.Count; i++)
-                {
-                    System.Diagnostics.Debug.WriteLine($"Position {i}: ID={_allMembersInfo[i].Id}, Name={_allMembersInfo[i].FullName}");
-                }
             }
             catch (Exception ex)
             {
@@ -171,36 +163,93 @@ namespace GymApp.ViewModels.Members_Info
         {
             if (SelectedMemberInfo == null) return;
 
+            // ✅ ENHANCED: Kiểm tra trạng thái thẻ tập chi tiết hơn
             if (SelectedMemberInfo.MembershipStatus == "Hết hạn")
             {
-                MessageBox.Show("Thành viên này đã hết hạn thẻ tập!\nVui lòng gia hạn thẻ trước khi check-in.",
-                              "Thẻ hết hạn", MessageBoxButton.OK, MessageBoxImage.Warning);
+                var result = MessageBox.Show($"Thẻ tập của {SelectedMemberInfo.FullName} đã hết hạn!\n" +
+                                           $"Hết hạn từ: {SelectedMemberInfo.EndDate:dd/MM/yyyy}\n\n" +
+                                           "Bạn có muốn gia hạn thẻ ngay không?",
+                                           "Thẻ hết hạn", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    ExtendMembership();
+                }
                 return;
             }
 
-            var result = MessageBox.Show($"Check-in cho thành viên: {SelectedMemberInfo.FullName}?\n" +
-                                       $"Thẻ còn hiệu lực: {SelectedMemberInfo.DaysRemaining} ngày",
-                                       "Xác nhận check-in", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            // ✅ ENHANCED: Cảnh báo nếu thẻ sắp hết hạn
+            string warningMessage = "";
+            if (SelectedMemberInfo.DaysRemaining <= 7 && SelectedMemberInfo.DaysRemaining > 0)
+            {
+                warningMessage = $"\n⚠️ Lưu ý: Thẻ tập sắp hết hạn sau {SelectedMemberInfo.DaysRemaining} ngày!";
+            }
 
-            if (result == MessageBoxResult.Yes)
+            var confirmResult = MessageBox.Show($"Check-in cho thành viên: {SelectedMemberInfo.FullName}?\n" +
+                                              $"Gói tập: {SelectedMemberInfo.PackageName}\n" +
+                                              $"Thẻ còn hiệu lực: {SelectedMemberInfo.DaysRemaining} ngày\n" +
+                                              $"Thời gian: {DateTime.Now:HH:mm dd/MM/yyyy}{warningMessage}",
+                                              "Xác nhận check-in", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (confirmResult == MessageBoxResult.Yes)
             {
                 try
                 {
                     using var connection = _dbContext.GetConnection();
                     connection.Open();
 
+                    // ✅ ENHANCED: Kiểm tra check-in trùng lặp trong ngày
+                    string checkDuplicateSql = @"SELECT COUNT(*) FROM CheckInLog 
+                                                WHERE MemberId = :memberId 
+                                                AND TRUNC(CheckInTime) = TRUNC(SYSDATE)
+                                                AND CheckOutTime IS NULL";
+
+                    int todayCheckIns = 0;
+                    using (var checkCmd = new OracleCommand(checkDuplicateSql, connection))
+                    {
+                        checkCmd.Parameters.Add(":memberId", SelectedMemberInfo.Id);
+                        var result = checkCmd.ExecuteScalar();
+                        todayCheckIns = result != null ? Convert.ToInt32(result) : 0;
+                    }
+
+                    if (todayCheckIns > 0)
+                    {
+                        var duplicateResult = MessageBox.Show($"{SelectedMemberInfo.FullName} đã check-in hôm nay!\n" +
+                                                            "Bạn có muốn check-in lại không?",
+                                                            "Đã check-in hôm nay", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                        if (duplicateResult == MessageBoxResult.No)
+                        {
+                            return;
+                        }
+                    }
+
+                    // ✅ ENHANCED: Thực hiện check-in với thông tin chi tiết hơn
                     string sql = @"INSERT INTO CheckInLog (MemberId, CheckInTime, Notes) 
                                   VALUES (:memberId, SYSDATE, :notes)";
 
                     using var cmd = new OracleCommand(sql, connection);
                     cmd.Parameters.Add(":memberId", SelectedMemberInfo.Id);
-                    cmd.Parameters.Add(":notes", $"Check-in từ Members Info - {SelectedMemberInfo.PackageName}");
+                    cmd.Parameters.Add(":notes", $"Check-in từ Members Info - {SelectedMemberInfo.PackageName} - Còn {SelectedMemberInfo.DaysRemaining} ngày");
 
                     int rowsAffected = cmd.ExecuteNonQuery();
                     if (rowsAffected > 0)
                     {
-                        MessageBox.Show($"Check-in thành công!\nThành viên: {SelectedMemberInfo.FullName}\nThời gian: {DateTime.Now:HH:mm dd/MM/yyyy}",
-                                      "Check-in thành công", MessageBoxButton.OK, MessageBoxImage.Information);
+                        // ✅ ENHANCED: Thông báo thành công với thông tin chi tiết
+                        string successMessage = $"✅ Check-in thành công!\n\n" +
+                                              $"Thành viên: {SelectedMemberInfo.FullName}\n" +
+                                              $"Thời gian: {DateTime.Now:HH:mm dd/MM/yyyy}\n" +
+                                              $"Gói tập: {SelectedMemberInfo.PackageName}\n" +
+                                              $"Thẻ còn hiệu lực: {SelectedMemberInfo.DaysRemaining} ngày";
+
+                        if (SelectedMemberInfo.DaysRemaining <= 7)
+                        {
+                            successMessage += $"\n\n⚠️ Nhắc nhở: Thẻ tập sắp hết hạn!";
+                        }
+
+                        MessageBox.Show(successMessage, "Check-in thành công", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                        // ✅ ENHANCED: Tự động refresh data để cập nhật thống kê
+                        LoadData();
                     }
                 }
                 catch (Exception ex)

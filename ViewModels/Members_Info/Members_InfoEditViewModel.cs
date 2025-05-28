@@ -51,6 +51,7 @@ namespace GymApp.ViewModels.Members_Info
                 OnPropertyChanged(nameof(SelectedPackage));
                 if (value != null)
                 {
+                    // Gia hạn từ ngày kết thúc hiện tại
                     NewEndDate = MemberInfo.EndDate.AddDays(value.DurationDays);
                     ExtensionPrice = value.Price;
                 }
@@ -63,7 +64,7 @@ namespace GymApp.ViewModels.Members_Info
             set { _extensionPrice = value; OnPropertyChanged(nameof(ExtensionPrice)); }
         }
 
-        public int ExtensionDays => (NewEndDate - MemberInfo.EndDate).Days;
+        public int ExtensionDays => Math.Max(0, (NewEndDate - MemberInfo.EndDate).Days);
 
         public ICommand ExtendCommand { get; }
         public ICommand CancelCommand { get; }
@@ -117,13 +118,26 @@ namespace GymApp.ViewModels.Members_Info
         {
             if (SelectedPackage == null)
             {
-                // Calculate proportional price based on days
+                // ✅ IMPROVED: Tính giá dựa trên số ngày gia hạn
                 var daysToExtend = ExtensionDays;
                 if (daysToExtend > 0 && MemberInfo.Price > 0)
                 {
-                    // Assume current package is 30 days for calculation
-                    var dailyRate = MemberInfo.Price / 30;
-                    ExtensionPrice = dailyRate * daysToExtend;
+                    // Giả sử gói hiện tại có mức giá theo ngày
+                    var currentPackageDays = (MemberInfo.EndDate - MemberInfo.StartDate).Days;
+                    if (currentPackageDays > 0)
+                    {
+                        var dailyRate = MemberInfo.Price / currentPackageDays;
+                        ExtensionPrice = dailyRate * daysToExtend;
+                    }
+                    else
+                    {
+                        // Fallback: Sử dụng mức giá cố định 20,000 VNĐ/ngày
+                        ExtensionPrice = 20000 * daysToExtend;
+                    }
+                }
+                else
+                {
+                    ExtensionPrice = 0;
                 }
             }
             OnPropertyChanged(nameof(ExtensionDays));
@@ -150,7 +164,8 @@ namespace GymApp.ViewModels.Members_Info
                     $"Từ: {MemberInfo.EndDate:dd/MM/yyyy}\n" +
                     $"Đến: {NewEndDate:dd/MM/yyyy}\n" +
                     $"Thêm: {ExtensionDays} ngày\n" +
-                    $"Giá: {ExtensionPrice:N0} VNĐ",
+                    $"Giá gia hạn: {ExtensionPrice:N0} VNĐ\n" +
+                    $"Tổng giá mới: {(MemberInfo.Price + ExtensionPrice):N0} VNĐ",
                     "Xác nhận gia hạn", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes)
@@ -158,49 +173,84 @@ namespace GymApp.ViewModels.Members_Info
                     using var connection = _dbContext.GetConnection();
                     connection.Open();
 
-                    // Get the current membership card ID
-                    string getMembershipSql = @"SELECT Id FROM MembershipCards 
-                                               WHERE MemberId = :memberId 
-                                               AND EndDate = :currentEndDate 
-                                               AND Status = 'Hoạt động'
-                                               ORDER BY Id DESC 
-                                               FETCH FIRST 1 ROWS ONLY";
-
-                    int membershipCardId = 0;
-                    using (var getCmd = new OracleCommand(getMembershipSql, connection))
+                    // ✅ IMPROVED: Sử dụng transaction để đảm bảo tính toàn vẹn dữ liệu
+                    using var transaction = connection.BeginTransaction();
+                    try
                     {
-                        getCmd.Parameters.Add(":memberId", MemberInfo.Id);
-                        getCmd.Parameters.Add(":currentEndDate", MemberInfo.EndDate);
-                        var result2 = getCmd.ExecuteScalar();
-                        if (result2 != null)
-                            membershipCardId = Convert.ToInt32(result2);
-                    }
+                        // 1. Tìm thẻ tập hiện tại của thành viên
+                        string getMembershipSql = @"SELECT Id, Price FROM MembershipCards 
+                                                   WHERE MemberId = :memberId 
+                                                   AND EndDate = :currentEndDate 
+                                                   AND Status = 'Hoạt động'
+                                                   ORDER BY Id DESC 
+                                                   FETCH FIRST 1 ROWS ONLY";
 
-                    if (membershipCardId > 0)
-                    {
-                        // Update existing membership card
-                        string updateSql = @"UPDATE MembershipCards 
-                                           SET EndDate = :newEndDate, 
-                                               Price = Price + :extensionPrice,
-                                               Notes = NVL(Notes, '') || ' | Gia hạn ' || :extensionDays || ' ngày (' || TO_CHAR(SYSDATE, 'DD/MM/YYYY') || ')'
-                                           WHERE Id = :membershipId";
-
-                        using var updateCmd = new OracleCommand(updateSql, connection);
-                        updateCmd.Parameters.Add(":newEndDate", NewEndDate);
-                        updateCmd.Parameters.Add(":extensionPrice", ExtensionPrice);
-                        updateCmd.Parameters.Add(":extensionDays", ExtensionDays);
-                        updateCmd.Parameters.Add(":membershipId", membershipCardId);
-
-                        int rowsAffected = updateCmd.ExecuteNonQuery();
-                        if (rowsAffected > 0)
+                        int membershipCardId = 0;
+                        decimal currentPrice = 0;
+                        using (var getCmd = new OracleCommand(getMembershipSql, connection))
                         {
-                            MessageBox.Show("Gia hạn thẻ tập thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
-                            RequestClose?.Invoke(true);
+                            getCmd.Transaction = transaction;
+                            getCmd.Parameters.Add(":memberId", MemberInfo.Id);
+                            getCmd.Parameters.Add(":currentEndDate", MemberInfo.EndDate);
+
+                            using var reader = getCmd.ExecuteReader();
+                            if (reader.Read())
+                            {
+                                membershipCardId = Convert.ToInt32(reader["Id"]);
+                                currentPrice = Convert.ToDecimal(reader["Price"]);
+                            }
+                        }
+
+                        if (membershipCardId > 0)
+                        {
+                            // 2. Cập nhật thẻ tập hiện tại
+                            string updateSql = @"UPDATE MembershipCards 
+                                               SET EndDate = :newEndDate, 
+                                                   Price = :newPrice,
+                                                   Notes = NVL(Notes, '') || ' | Gia hạn ' || :extensionDays || ' ngày (' || TO_CHAR(SYSDATE, 'DD/MM/YYYY') || ') - Phí: ' || :extensionPrice || ' VNĐ'
+                                               WHERE Id = :membershipId";
+
+                            using var updateCmd = new OracleCommand(updateSql, connection);
+                            updateCmd.Transaction = transaction;
+                            updateCmd.Parameters.Add(":newEndDate", NewEndDate);
+                            updateCmd.Parameters.Add(":newPrice", currentPrice + ExtensionPrice);
+                            updateCmd.Parameters.Add(":extensionDays", ExtensionDays);
+                            updateCmd.Parameters.Add(":extensionPrice", ExtensionPrice);
+                            updateCmd.Parameters.Add(":membershipId", membershipCardId);
+
+                            int rowsAffected = updateCmd.ExecuteNonQuery();
+                            if (rowsAffected > 0)
+                            {
+                                // 3. Ghi log gia hạn (tùy chọn)
+                                string logSql = @"INSERT INTO CheckInLog (MemberId, CheckInTime, Notes) 
+                                                VALUES (:memberId, SYSDATE, :notes)";
+
+                                using var logCmd = new OracleCommand(logSql, connection);
+                                logCmd.Transaction = transaction;
+                                logCmd.Parameters.Add(":memberId", MemberInfo.Id);
+                                logCmd.Parameters.Add(":notes", $"Gia hạn thẻ tập {ExtensionDays} ngày - Phí: {ExtensionPrice:N0} VNĐ");
+                                logCmd.ExecuteNonQuery();
+
+                                transaction.Commit();
+                                MessageBox.Show("Gia hạn thẻ tập thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                                RequestClose?.Invoke(true);
+                            }
+                            else
+                            {
+                                transaction.Rollback();
+                                MessageBox.Show("Không thể cập nhật thẻ tập!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
+                        }
+                        else
+                        {
+                            transaction.Rollback();
+                            MessageBox.Show("Không tìm thấy thẻ tập hoạt động để gia hạn!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        MessageBox.Show("Không tìm thấy thẻ tập hoạt động để gia hạn!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                        transaction.Rollback();
+                        throw ex;
                     }
                 }
             }
