@@ -61,9 +61,11 @@ namespace GymApp.ViewModels.Member
                 using var connection = _dbContext.GetConnection();
                 connection.Open();
 
+                // ✅ FIX: ORDER BY Id ASC để member mới (ID lớn hơn) xuất hiện ở cuối
                 string sql = @"SELECT Id, FullName, Phone, Email, Gender, DateOfBirth, Address, 
                               JoinDate, IsActive, Notes, CreatedDate, UpdatedDate 
-                              FROM Members ORDER BY Id ASC";
+                              FROM Members 
+                              ORDER BY Id ASC"; // ← QUAN TRỌNG: Id tăng dần = member mới ở cuối
 
                 using var cmd = new OracleCommand(sql, connection);
                 using var reader = cmd.ExecuteReader();
@@ -85,7 +87,14 @@ namespace GymApp.ViewModels.Member
                         CreatedDate = Convert.ToDateTime(reader["CreatedDate"]),
                         UpdatedDate = Convert.ToDateTime(reader["UpdatedDate"])
                     };
-                    Members.Add(member);
+                    Members.Add(member); // Add theo thứ tự Id tăng dần
+                }
+
+                // Debug để xác nhận thứ tự
+                System.Diagnostics.Debug.WriteLine($"Members loaded in order:");
+                for (int i = 0; i < Members.Count; i++)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Position {i}: ID={Members[i].Id}, Name={Members[i].FullName}");
                 }
             }
             catch (Exception ex)
@@ -108,13 +117,14 @@ namespace GymApp.ViewModels.Member
                 using var connection = _dbContext.GetConnection();
                 connection.Open();
 
+                // ✅ FIX: ORDER BY Id ASC trong search cũng vậy
                 string sql = @"SELECT Id, FullName, Phone, Email, Gender, DateOfBirth, Address, 
                               JoinDate, IsActive, Notes, CreatedDate, UpdatedDate 
                               FROM Members 
                               WHERE UPPER(FullName) LIKE UPPER(:searchText) 
                               OR UPPER(Phone) LIKE UPPER(:searchText)
                               OR UPPER(Email) LIKE UPPER(:searchText)
-                              ORDER BY Id ASC";
+                              ORDER BY Id ASC"; // ← QUAN TRỌNG: Giữ thứ tự Id tăng dần
 
                 using var cmd = new OracleCommand(sql, connection);
                 cmd.Parameters.Add(":searchText", $"%{SearchText}%");

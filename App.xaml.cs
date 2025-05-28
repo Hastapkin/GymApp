@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using GymApp.Data;
+using GymApp.Views;
 
 namespace GymApp;
 
@@ -21,6 +22,15 @@ public partial class App : Application
                           "Lỗi kết nối database",
                           MessageBoxButton.OK,
                           MessageBoxImage.Error);
+
+            // Still allow app to start for development
         }
+
+        // ✅ IMPROVED: Start with Login Window instead of MainWindow
+        var loginWindow = new LoginWindow();
+        loginWindow.Show();
+
+        // ✅ FIX: Set proper shutdown mode
+        ShutdownMode = ShutdownMode.OnLastWindowClose;
     }
 }

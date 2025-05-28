@@ -82,9 +82,11 @@ namespace GymApp.ViewModels.Members_Info
                 using var connection = _dbContext.GetConnection();
                 connection.Open();
 
+                // ✅ FIX: ORDER BY Id ASC để member mới (ID lớn hơn) xuất hiện ở cuối
                 string sql = @"SELECT Id, FullName, Phone, Email, Gender, JoinDate, StartDate, EndDate, 
                               PackageName, Price, Status, MembershipStatus, DaysRemaining 
-                              FROM V_MemberInfo ORDER BY Id ASC, DaysRemaining ASC";
+                              FROM V_MemberInfo 
+                              ORDER BY Id ASC, DaysRemaining ASC"; // ← QUAN TRỌNG: Id tăng dần = member mới ở cuối
 
                 using var cmd = new OracleCommand(sql, connection);
                 using var reader = cmd.ExecuteReader();
@@ -111,6 +113,13 @@ namespace GymApp.ViewModels.Members_Info
                 }
 
                 FilterData();
+
+                // Debug để xác nhận thứ tự
+                System.Diagnostics.Debug.WriteLine($"Members_Info loaded in order:");
+                for (int i = 0; i < _allMembersInfo.Count; i++)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Position {i}: ID={_allMembersInfo[i].Id}, Name={_allMembersInfo[i].FullName}");
+                }
             }
             catch (Exception ex)
             {
