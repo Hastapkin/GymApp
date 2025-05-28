@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "GymApp": {
+      "commandName": "Project",
+      "commandLineArgs": ""
+    }
+  }
+}

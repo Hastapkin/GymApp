@@ -1,0 +1,93 @@
+﻿<Window x:Class="GymApp.Views.Staffs.StaffCreateView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Thêm nhân viên mới" Height="650" Width="500"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Grid.Row="0" Text="THÊM NHÂN VIÊN MỚI" 
+                   FontSize="20" FontWeight="Bold" Foreground="#2C3E50" 
+                   HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+        <!-- Form -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <!-- Full Name -->
+                <Label Content="Họ tên *" FontWeight="Bold"/>
+                <TextBox Text="{Binding Staff.FullName, UpdateSourceTrigger=PropertyChanged}" 
+                         Margin="0,0,0,15" Padding="8" Height="35"/>
+
+                <!-- Phone -->
+                <Label Content="Số điện thoại" FontWeight="Bold"/>
+                <TextBox Text="{Binding Staff.Phone, UpdateSourceTrigger=PropertyChanged}" 
+                         Margin="0,0,0,15" Padding="8" Height="35"/>
+
+                <!-- Email -->
+                <Label Content="Email" FontWeight="Bold"/>
+                <TextBox Text="{Binding Staff.Email, UpdateSourceTrigger=PropertyChanged}" 
+                         Margin="0,0,0,15" Padding="8" Height="35"/>
+
+                <!-- Role -->
+                <Label Content="Chức vụ *" FontWeight="Bold"/>
+                <ComboBox ItemsSource="{Binding RoleOptions}" 
+                          SelectedItem="{Binding Staff.Role}" 
+                          Margin="0,0,0,15" Padding="8" Height="35"/>
+
+                <!-- Start Date -->
+                <Label Content="Ngày bắt đầu làm việc" FontWeight="Bold"/>
+                <DatePicker SelectedDate="{Binding Staff.StartDate}" 
+                            Margin="0,0,0,15" Padding="8" Height="35"/>
+
+                <!-- Salary -->
+                <Label Content="Lương (VNĐ)" FontWeight="Bold"/>
+                <TextBox Text="{Binding Staff.Salary, UpdateSourceTrigger=PropertyChanged}" 
+                         Margin="0,0,0,15" Padding="8" Height="35"/>
+
+                <!-- Address -->
+                <Label Content="Địa chỉ" FontWeight="Bold"/>
+                <TextBox Text="{Binding Staff.Address, UpdateSourceTrigger=PropertyChanged}" 
+                         Margin="0,0,0,15" Padding="8" Height="60" 
+                         TextWrapping="Wrap" AcceptsReturn="True"/>
+
+                <!-- Is Active -->
+                <CheckBox Content="Đang làm việc" IsChecked="{Binding Staff.IsActive}" 
+                          Margin="0,0,0,15" FontWeight="Bold"/>
+
+                <!-- Notes -->
+                <Label Content="Ghi chú" FontWeight="Bold"/>
+                <TextBox Text="{Binding Staff.Notes, UpdateSourceTrigger=PropertyChanged}" 
+                         Margin="0,0,0,15" Padding="8" Height="80"
+                         TextWrapping="Wrap" AcceptsReturn="True"/>
+
+                <!-- Info Panel -->
+                <Border Background="#E8F4FD" BorderBrush="#3498DB" BorderThickness="1" 
+                        CornerRadius="5" Padding="15" Margin="0,10,0,0">
+                    <StackPanel>
+                        <TextBlock Text="💼 Thông tin về chức vụ:" FontWeight="Bold" Foreground="#2C3E50"/>
+                        <TextBlock Text="• Quản lý: Quản lý toàn bộ hoạt động phòng gym" Margin="0,5,0,0"/>
+                        <TextBlock Text="• Huấn luyện viên: Hướng dẫn tập luyện cho khách hàng" Margin="0,2,0,0"/>
+                        <TextBlock Text="• Thu ngân: Xử lý thanh toán và tài chính" Margin="0,2,0,0"/>
+                        <TextBlock Text="• Lao công: Vệ sinh và bảo trì thiết bị" Margin="0,2,0,0"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button Content="Lưu" Command="{Binding SaveCommand}" 
+                    Background="#27AE60" Foreground="White" 
+                    Padding="20,10" Margin="0,0,10,0" MinWidth="80"/>
+            <Button Content="Hủy" Command="{Binding CancelCommand}" 
+                    Background="#95A5A6" Foreground="White" 
+                    Padding="20,10" MinWidth="80"/>
+        </StackPanel>
+    </Grid>
+</Window>

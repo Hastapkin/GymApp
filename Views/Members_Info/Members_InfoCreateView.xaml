@@ -1,0 +1,198 @@
+﻿<Window x:Class="GymApp.Views.Members_Info.Members_InfoCreateView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Tạo thành viên và thẻ tập" Height="750" Width="600"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Grid.Row="0" Text="TẠO THÀNH VIÊN VÀ THẺ TẬP" 
+                   FontSize="20" FontWeight="Bold" Foreground="#2C3E50" 
+                   HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+        <!-- Form -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <!-- Member Information Section -->
+                <Border Background="#E8F4FD" BorderBrush="#3498DB" BorderThickness="1" 
+                        CornerRadius="5" Padding="15" Margin="0,0,0,20">
+                    <StackPanel>
+                        <TextBlock Text="THÔNG TIN THÀNH VIÊN" FontWeight="Bold" FontSize="14" Foreground="#2C3E50"/>
+
+                        <!-- Full Name -->
+                        <Label Content="Họ tên *" FontWeight="Bold" Margin="0,10,0,0"/>
+                        <TextBox Text="{Binding NewMember.FullName, UpdateSourceTrigger=PropertyChanged}" 
+                                 Margin="0,0,0,10" Padding="8" Height="35"/>
+
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Phone -->
+                            <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                <Label Content="Số điện thoại" FontWeight="Bold"/>
+                                <TextBox Text="{Binding NewMember.Phone, UpdateSourceTrigger=PropertyChanged}" 
+                                         Padding="8" Height="35"/>
+                            </StackPanel>
+
+                            <!-- Gender -->
+                            <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                <Label Content="Giới tính" FontWeight="Bold"/>
+                                <ComboBox ItemsSource="{Binding GenderOptions}" 
+                                          SelectedItem="{Binding NewMember.Gender}" 
+                                          Padding="8" Height="35"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Email -->
+                        <Label Content="Email" FontWeight="Bold"/>
+                        <TextBox Text="{Binding NewMember.Email, UpdateSourceTrigger=PropertyChanged}" 
+                                 Margin="0,0,0,10" Padding="8" Height="35"/>
+
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Date of Birth -->
+                            <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                <Label Content="Ngày sinh" FontWeight="Bold"/>
+                                <DatePicker SelectedDate="{Binding NewMember.DateOfBirth}" 
+                                            Padding="8" Height="35"/>
+                            </StackPanel>
+
+                            <!-- Join Date -->
+                            <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                <Label Content="Ngày tham gia" FontWeight="Bold"/>
+                                <DatePicker SelectedDate="{Binding NewMember.JoinDate}" 
+                                            Padding="8" Height="35"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Address -->
+                        <Label Content="Địa chỉ" FontWeight="Bold"/>
+                        <TextBox Text="{Binding NewMember.Address, UpdateSourceTrigger=PropertyChanged}" 
+                                 Margin="0,0,0,10" Padding="8" Height="60" 
+                                 TextWrapping="Wrap" AcceptsReturn="True"/>
+
+                        <!-- Notes -->
+                        <Label Content="Ghi chú" FontWeight="Bold"/>
+                        <TextBox Text="{Binding NewMember.Notes, UpdateSourceTrigger=PropertyChanged}" 
+                                 Margin="0,0,0,10" Padding="8" Height="60"
+                                 TextWrapping="Wrap" AcceptsReturn="True"/>
+
+                        <!-- Is Active -->
+                        <CheckBox Content="Thành viên hoạt động" IsChecked="{Binding NewMember.IsActive}" 
+                                  FontWeight="Bold"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Membership Information Section -->
+                <Border Background="#E8F6F3" BorderBrush="#27AE60" BorderThickness="1" 
+                        CornerRadius="5" Padding="15" Margin="0,0,0,20">
+                    <StackPanel>
+                        <TextBlock Text="THÔNG TIN THẺ TẬP" FontWeight="Bold" FontSize="14" Foreground="#2C3E50"/>
+
+                        <!-- Package Selection -->
+                        <Label Content="Gói tập *" FontWeight="Bold" Margin="0,10,0,0"/>
+                        <ComboBox ItemsSource="{Binding Packages}" 
+                                  SelectedItem="{Binding SelectedPackage}"
+                                  DisplayMemberPath="PackageName"
+                                  Margin="0,0,0,10" Padding="8" Height="35">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding PackageName}" FontWeight="Bold" Width="150"/>
+                                        <TextBlock Text="{Binding DurationDays}" Foreground="Blue" Margin="10,0"/>
+                                        <TextBlock Text="ngày -" Foreground="Blue" Margin="2,0"/>
+                                        <TextBlock Text="{Binding Price, StringFormat=N0}" Foreground="Green" Margin="5,0"/>
+                                        <TextBlock Text="VNĐ" Foreground="Green" Margin="2,0"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Start Date -->
+                            <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                <Label Content="Ngày bắt đầu *" FontWeight="Bold"/>
+                                <DatePicker SelectedDate="{Binding MembershipStartDate}" 
+                                            Padding="8" Height="35"/>
+                            </StackPanel>
+
+                            <!-- End Date -->
+                            <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                <Label Content="Ngày kết thúc *" FontWeight="Bold"/>
+                                <DatePicker SelectedDate="{Binding MembershipEndDate}" 
+                                            Padding="8" Height="35"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Price -->
+                            <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                <Label Content="Giá (VNĐ) *" FontWeight="Bold"/>
+                                <TextBox Text="{Binding MembershipPrice, UpdateSourceTrigger=PropertyChanged}" 
+                                         Padding="8" Height="35"/>
+                            </StackPanel>
+
+                            <!-- Payment Method -->
+                            <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                <Label Content="Thanh toán" FontWeight="Bold"/>
+                                <ComboBox ItemsSource="{Binding PaymentMethods}" 
+                                          SelectedItem="{Binding PaymentMethod}" 
+                                          Padding="8" Height="35"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Summary Section -->
+                <Border Background="#FFF3CD" BorderBrush="#FFC107" BorderThickness="1" 
+                        CornerRadius="5" Padding="15" Margin="0,0,0,0">
+                    <StackPanel>
+                        <TextBlock Text="📋 TÓM TẮT" FontWeight="Bold" FontSize="14" Foreground="#856404"/>
+                        <TextBlock Margin="0,10,0,0" TextWrapping="Wrap">
+                            <Run Text="• Tạo đồng thời thành viên mới và thẻ tập"/>
+                            <LineBreak/>
+                            <Run Text="• Thẻ tập sẽ được kích hoạt ngay sau khi tạo"/>
+                            <LineBreak/>
+                            <Run Text="• Thành viên có thể check-in ngay lập tức"/>
+                            <LineBreak/>
+                            <Run Text="• Tất cả thông tin sẽ được lưu vào hệ thống"/>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button Content="Tạo thành viên và thẻ tập" Command="{Binding SaveCommand}" 
+                    Background="#27AE60" Foreground="White" 
+                    Padding="20,10" Margin="0,0,10,0" MinWidth="120"/>
+            <Button Content="Hủy" Command="{Binding CancelCommand}" 
+                    Background="#95A5A6" Foreground="White" 
+                    Padding="20,10" MinWidth="80"/>
+        </StackPanel>
+    </Grid>
+</Window>

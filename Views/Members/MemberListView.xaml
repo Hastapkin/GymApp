@@ -1,0 +1,82 @@
+﻿<Page x:Class="GymApp.Views.Members.MemberListView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Danh sách thành viên">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Grid.Row="0" Text="DANH SÁCH THÀNH VIÊN" 
+                   FontSize="24" FontWeight="Bold" Foreground="#2C3E50" Margin="0,0,0,20"/>
+
+        <!-- Search and Actions -->
+        <Grid Grid.Row="1" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox Grid.Column="0" x:Name="SearchTextBox" 
+                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                     FontSize="14" Padding="10" Height="35"
+                     VerticalContentAlignment="Center"/>
+
+            <Button Grid.Column="1" Content="Tìm kiếm" Command="{Binding SearchCommand}"
+                    Background="#3498DB" Foreground="White" Padding="15,8" Margin="10,0,0,0"/>
+
+            <Button Grid.Column="2" Content="Làm mới" Command="{Binding RefreshCommand}"
+                    Background="#95A5A6" Foreground="White" Padding="15,8" Margin="10,0,0,0"/>
+
+            <Button Grid.Column="3" Content="Xóa" Command="{Binding DeleteCommand}"
+                    Background="#E74C3C" Foreground="White" Padding="15,8" Margin="10,0,0,0"/>
+        </Grid>
+
+        <!-- Data Grid -->
+        <DataGrid Grid.Row="2" ItemsSource="{Binding Members}" 
+                  SelectedItem="{Binding SelectedMember}"
+                  AutoGenerateColumns="False" CanUserAddRows="False" 
+                  CanUserDeleteRows="False" IsReadOnly="True"
+                  GridLinesVisibility="Horizontal" HeadersVisibility="Column"
+                  AlternatingRowBackground="#F8F9FA" RowBackground="White">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                <DataGridTextColumn Header="Họ tên" Binding="{Binding FullName}" Width="200"/>
+                <DataGridTextColumn Header="Số điện thoại" Binding="{Binding Phone}" Width="120"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="200"/>
+                <DataGridTextColumn Header="Giới tính" Binding="{Binding Gender}" Width="80"/>
+                <DataGridTextColumn Header="Ngày sinh" Binding="{Binding DateOfBirth, StringFormat=dd/MM/yyyy}" Width="100"/>
+                <DataGridTextColumn Header="Ngày tham gia" Binding="{Binding JoinDate, StringFormat=dd/MM/yyyy}" Width="120"/>
+                <DataGridCheckBoxColumn Header="Hoạt động" Binding="{Binding IsActive}" Width="80"/>
+                <DataGridTemplateColumn Header="Hành động" Width="150">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Sửa" Click="EditMember_Click" 
+                                        Background="#F39C12" Foreground="White" 
+                                        Padding="8,4" Margin="2"/>
+                                <Button Content="Xem" Click="ViewMember_Click" 
+                                        Background="#3498DB" Foreground="White" 
+                                        Padding="8,4" Margin="2"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Footer -->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <TextBlock Text="Tổng số thành viên: " FontWeight="Bold" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding Members.Count}" FontWeight="Bold" VerticalAlignment="Center" Margin="5,0,0,0"/>
+        </StackPanel>
+    </Grid>
+</Page>

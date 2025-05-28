@@ -1,0 +1,105 @@
+﻿<Page x:Class="GymApp.Views.Staffs.StaffListView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Danh sách nhân viên">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Grid.Row="0" Text="DANH SÁCH NHÂN VIÊN" 
+                   FontSize="24" FontWeight="Bold" Foreground="#2C3E50" Margin="0,0,0,20"/>
+
+        <!-- Search and Actions -->
+        <Grid Grid.Row="1" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox Grid.Column="0" x:Name="SearchTextBox" 
+                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                     FontSize="14" Padding="10" Height="35"
+                     VerticalContentAlignment="Center"/>
+
+            <Button Grid.Column="1" Content="Tìm kiếm" Command="{Binding SearchCommand}"
+                    Background="#3498DB" Foreground="White" Padding="15,8" Margin="10,0,0,0"/>
+
+            <Button Grid.Column="2" Content="Làm mới" Command="{Binding RefreshCommand}"
+                    Background="#95A5A6" Foreground="White" Padding="15,8" Margin="10,0,0,0"/>
+
+            <Button Grid.Column="3" Content="Xóa" Command="{Binding DeleteCommand}"
+                    Background="#E74C3C" Foreground="White" Padding="15,8" Margin="10,0,0,0"/>
+        </Grid>
+
+        <!-- Data Grid -->
+        <DataGrid Grid.Row="2" ItemsSource="{Binding StaffList}" 
+                  SelectedItem="{Binding SelectedStaff}"
+                  AutoGenerateColumns="False" CanUserAddRows="False" 
+                  CanUserDeleteRows="False" IsReadOnly="True"
+                  GridLinesVisibility="Horizontal" HeadersVisibility="Column"
+                  AlternatingRowBackground="#F8F9FA" RowBackground="White">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                <DataGridTextColumn Header="Họ tên" Binding="{Binding FullName}" Width="150"/>
+                <DataGridTextColumn Header="Số điện thoại" Binding="{Binding Phone}" Width="120"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="180"/>
+                <DataGridTextColumn Header="Chức vụ" Binding="{Binding Role}" Width="120">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="Quản lý">
+                                    <Setter Property="Foreground" Value="Purple"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </Trigger>
+                                <Trigger Property="Text" Value="Huấn luyện viên">
+                                    <Setter Property="Foreground" Value="Blue"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </Trigger>
+                                <Trigger Property="Text" Value="Thu ngân">
+                                    <Setter Property="Foreground" Value="Green"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </Trigger>
+                                <Trigger Property="Text" Value="Lao công">
+                                    <Setter Property="Foreground" Value="Orange"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Ngày bắt đầu" Binding="{Binding StartDate, StringFormat=dd/MM/yyyy}" Width="100"/>
+                <DataGridTextColumn Header="Lương (VNĐ)" Binding="{Binding Salary, StringFormat=N0}" Width="120"/>
+                <DataGridCheckBoxColumn Header="Hoạt động" Binding="{Binding IsActive}" Width="80"/>
+                <DataGridTemplateColumn Header="Hành động" Width="150">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Sửa" Click="EditStaff_Click" 
+                                        Background="#F39C12" Foreground="White" 
+                                        Padding="8,4" Margin="2"/>
+                                <Button Content="Xem" Click="ViewStaff_Click" 
+                                        Background="#3498DB" Foreground="White" 
+                                        Padding="8,4" Margin="2"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Footer -->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <TextBlock Text="Tổng số nhân viên: " FontWeight="Bold" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding StaffList.Count}" FontWeight="Bold" VerticalAlignment="Center" Margin="5,0,0,0"/>
+        </StackPanel>
+    </Grid>
+</Page>

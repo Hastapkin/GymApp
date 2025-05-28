@@ -1,0 +1,215 @@
+﻿using static System.Net.Mime.MediaTypeNames;
+using System.Drawing.Printing;
+using System.Reflection.PortableExecutable;
+using System.Windows.Controls;
+using System.Windows.Media.Media3D;
+using System.Windows;
+
+using System.Xml.Linq;
+
+< Page x: Class = "GymApp.Views.Members_Info.Members_InfoListView"
+      xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns: x = "http://schemas.microsoft.com/winfx/2006/xaml"
+      Title = "Thông tin thành viên" >
+
+    < Grid Margin = "20" >
+        < Grid.RowDefinitions >
+            < RowDefinition Height = "Auto" />
+            < RowDefinition Height = "Auto" />
+            < RowDefinition Height = "*" />
+            < RowDefinition Height = "Auto" />
+        </ Grid.RowDefinitions >
+
+        < !--Header-- >
+        < TextBlock Grid.Row = "0" Text = "THÔNG TIN THÀNH VIÊN VÀ THẺ TẬP"
+                   FontSize = "24" FontWeight = "Bold" Foreground = "#2C3E50" Margin = "0,0,0,20" />
+
+        < !--Search and Filter Controls -->
+        <Grid Grid.Row="1" Margin="0,0,0,20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
+            <!-- Search Row -->
+            <Grid Grid.Row="0" Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox Grid.Column="0" x:Name = "SearchTextBox"
+                         Text = "{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                         FontSize = "14" Padding = "10" Height = "35"
+                         VerticalContentAlignment = "Center" />
+
+                < Button Grid.Column = "1" Content = "Tìm kiếm" Command = "{Binding SearchCommand}"
+                        Background = "#3498DB" Foreground = "White" Padding = "15,8" Margin = "10,0,0,0" />
+
+                < Button Grid.Column = "2" Content = "Làm mới" Command = "{Binding RefreshCommand}"
+                        Background = "#95A5A6" Foreground = "White" Padding = "15,8" Margin = "10,0,0,0" />
+            </ Grid >
+
+
+            < !--Filter and Action Row -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="Lọc theo trạng thái:" 
+                           FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                
+                <ComboBox Grid.Column="1" ItemsSource="{Binding FilterOptions}" 
+                          SelectedItem="{Binding FilterStatus}" 
+                          Padding="8" Height="35"/>
+
+                <Button Grid.Column="3" Content="Gia hạn" Command="{Binding ExtendMembershipCommand}"
+                        Background="#F39C12" Foreground="White" Padding="15,8" Margin="10,0,0,0"/>
+
+                <Button Grid.Column="4" Content="Check-in" Command="{Binding CheckInCommand}"
+                        Background="#27AE60" Foreground="White" Padding="15,8" Margin="10,0,0,0"/>
+            </Grid>
+        </Grid>
+
+        <!-- Data Grid -->
+        <DataGrid Grid.Row="2" ItemsSource="{Binding MembersInfo}" 
+                  SelectedItem="{Binding SelectedMemberInfo}"
+                  AutoGenerateColumns="False" CanUserAddRows="False" 
+                  CanUserDeleteRows="False" IsReadOnly="True"
+                  GridLinesVisibility="Horizontal" HeadersVisibility="Column"
+                  AlternatingRowBackground="#F8F9FA" RowBackground="White">
+            
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                <DataGridTextColumn Header="Họ tên" Binding="{Binding FullName}" Width="150"/>
+                <DataGridTextColumn Header="Điện thoại" Binding="{Binding Phone}" Width="120"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="180"/>
+                <DataGridTextColumn Header="Gói tập" Binding="{Binding PackageName}" Width="120"/>
+                <DataGridTextColumn Header="Bắt đầu" Binding="{Binding StartDate, StringFormat=dd/MM/yyyy}" Width="80"/>
+                <DataGridTextColumn Header="Kết thúc" Binding="{Binding EndDate, StringFormat=dd/MM/yyyy}" Width="80"/>
+                <DataGridTextColumn Header="Giá (VNĐ)" Binding="{Binding Price, StringFormat=N0}" Width="100"/>
+                <DataGridTextColumn Header="Trạng thái" Binding="{Binding MembershipStatus}" Width="80">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="Còn hạn">
+                                    <Setter Property="Foreground" Value="Green"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </Trigger>
+                                <Trigger Property="Text" Value="Hết hạn">
+                                    <Setter Property="Foreground" Value="Red"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Còn lại" Binding="{Binding DaysRemaining}" Width="60">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding DaysRemaining}" Value="0">
+                                    <Setter Property="Foreground" Value="Red"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=DaysRemaining, Converter={x:Static local:LessThanConverter.Instance}, ConverterParameter=7}" Value="True">
+                                    <Setter Property="Foreground" Value="Orange"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=DaysRemaining, Converter={x:Static local:GreaterThanConverter.Instance}, ConverterParameter=30}" Value="True">
+                                    <Setter Property="Foreground" Value="Green"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTemplateColumn Header="Hành động" Width="200">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Xem" Click="ViewMemberInfo_Click" 
+                                        Background="#3498DB" Foreground="White" 
+                                        Padding="6,4" Margin="2" FontSize="10"/>
+                                <Button Content="Gia hạn" Click="ExtendMembership_Click" 
+                                        Background="#F39C12" Foreground="White" 
+                                        Padding="6,4" Margin="2" FontSize="10"/>
+                                <Button Content="Check-in" Click="CheckIn_Click" 
+                                        Background="#27AE60" Foreground="White" 
+                                        Padding="6,4" Margin="2" FontSize="10"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Footer Statistics -->
+        <Grid Grid.Row="3" Margin="0,20,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <!-- Statistics Cards -->
+            <UniformGrid Grid.Column="0" Columns="4" Margin="0,0,20,0">
+                <Border Background="#27AE60" CornerRadius="5" Margin="2" Padding="10">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="TỔNG SỐ" FontSize="10" FontWeight="Bold" 
+                                   Foreground="White" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding MembersInfo.Count}" FontSize="16" FontWeight="Bold" 
+                                   Foreground="White" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+                
+                <Border Background="#3498DB" CornerRadius="5" Margin="2" Padding="10">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="CÒN HẠN" FontSize="10" FontWeight="Bold" 
+                                   Foreground="White" HorizontalAlignment="Center"/>
+                        <TextBlock FontSize="16" FontWeight="Bold" 
+                                   Foreground="White" HorizontalAlignment="Center">
+                            <TextBlock.Text>
+                                <Binding Path="MembersInfo" Converter="{x:Static local:CountByStatusConverter.Instance}" ConverterParameter="Còn hạn"/>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+                
+                <Border Background="#E74C3C" CornerRadius="5" Margin="2" Padding="10">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="HẾT HẠN" FontSize="10" FontWeight="Bold" 
+                                   Foreground="White" HorizontalAlignment="Center"/>
+                        <TextBlock FontSize="16" FontWeight="Bold" 
+                                   Foreground="White" HorizontalAlignment="Center">
+                            <TextBlock.Text>
+                                <Binding Path="MembersInfo" Converter="{x:Static local:CountByStatusConverter.Instance}" ConverterParameter="Hết hạn"/>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+                
+                <Border Background="#F39C12" CornerRadius="5" Margin="2" Padding="10">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="SẮP HẾT" FontSize="10" FontWeight="Bold" 
+                                   Foreground="White" HorizontalAlignment="Center"/>
+                        <TextBlock FontSize="16" FontWeight="Bold" 
+                                   Foreground="White" HorizontalAlignment="Center">
+                            <TextBlock.Text>
+                                <Binding Path="MembersInfo" Converter="{x:Static local:CountExpiringSoonConverter.Instance}"/>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
+            
+            <TextBlock Grid.Column="1" Text="* Sắp hết = còn ≤ 7 ngày" 
+                       FontStyle="Italic" VerticalAlignment="Bottom" Foreground="Gray"/>
+        </Grid>
+    </Grid>
+</Page>

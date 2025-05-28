@@ -1,0 +1,102 @@
+﻿<Page x:Class="GymApp.Views.MembershipCards.MembershipCardsListView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Danh sách thẻ tập">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Grid.Row="0" Text="DANH SÁCH THẺ TẬP" 
+                   FontSize="24" FontWeight="Bold" Foreground="#2C3E50" Margin="0,0,0,20"/>
+
+        <!-- Search and Actions -->
+        <Grid Grid.Row="1" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox Grid.Column="0" x:Name="SearchTextBox" 
+                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                     FontSize="14" Padding="10" Height="35"
+                     VerticalContentAlignment="Center"/>
+
+            <Button Grid.Column="1" Content="Tìm kiếm" Command="{Binding SearchCommand}"
+                    Background="#3498DB" Foreground="White" Padding="15,8" Margin="10,0,0,0"/>
+
+            <Button Grid.Column="2" Content="Làm mới" Command="{Binding RefreshCommand}"
+                    Background="#95A5A6" Foreground="White" Padding="15,8" Margin="10,0,0,0"/>
+
+            <Button Grid.Column="3" Content="Xóa" Command="{Binding DeleteCommand}"
+                    Background="#E74C3C" Foreground="White" Padding="15,8" Margin="10,0,0,0"/>
+        </Grid>
+
+        <!-- Data Grid -->
+        <DataGrid Grid.Row="2" ItemsSource="{Binding MembershipCards}" 
+                  SelectedItem="{Binding SelectedMembershipCard}"
+                  AutoGenerateColumns="False" CanUserAddRows="False" 
+                  CanUserDeleteRows="False" IsReadOnly="True"
+                  GridLinesVisibility="Horizontal" HeadersVisibility="Column"
+                  AlternatingRowBackground="#F8F9FA" RowBackground="White">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                <DataGridTextColumn Header="Thành viên" Binding="{Binding MemberName}" Width="150"/>
+                <DataGridTextColumn Header="Gói tập" Binding="{Binding PackageName}" Width="150"/>
+                <DataGridTextColumn Header="Ngày bắt đầu" Binding="{Binding StartDate, StringFormat=dd/MM/yyyy}" Width="100"/>
+                <DataGridTextColumn Header="Ngày kết thúc" Binding="{Binding EndDate, StringFormat=dd/MM/yyyy}" Width="100"/>
+                <DataGridTextColumn Header="Giá (VNĐ)" Binding="{Binding Price, StringFormat=N0}" Width="100"/>
+                <DataGridTextColumn Header="Thanh toán" Binding="{Binding PaymentMethod}" Width="100"/>
+                <DataGridTextColumn Header="Trạng thái" Binding="{Binding Status}" Width="80">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="Hoạt động">
+                                    <Setter Property="Foreground" Value="Green"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </Trigger>
+                                <Trigger Property="Text" Value="Hết hạn">
+                                    <Setter Property="Foreground" Value="Red"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </Trigger>
+                                <Trigger Property="Text" Value="Tạm ngưng">
+                                    <Setter Property="Foreground" Value="Orange"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Ngày tạo" Binding="{Binding CreatedDate, StringFormat=dd/MM/yyyy}" Width="100"/>
+                <DataGridTemplateColumn Header="Hành động" Width="150">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Sửa" Click="EditMembershipCard_Click" 
+                                        Background="#F39C12" Foreground="White" 
+                                        Padding="8,4" Margin="2"/>
+                                <Button Content="Xem" Click="ViewMembershipCard_Click" 
+                                        Background="#3498DB" Foreground="White" 
+                                        Padding="8,4" Margin="2"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Footer -->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <TextBlock Text="Tổng số thẻ tập: " FontWeight="Bold" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding MembershipCards.Count}" FontWeight="Bold" VerticalAlignment="Center" Margin="5,0,0,0"/>
+        </StackPanel>
+    </Grid>
+</Page>
