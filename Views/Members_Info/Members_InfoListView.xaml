@@ -33,7 +33,7 @@
 
                 <TextBox Grid.Column="0" x:Name="SearchTextBox" 
                          Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                         FontSize="14" Padding="0" Height="auto"
+                         FontSize="14" Padding="10" Height="35"
                          VerticalContentAlignment="Center"/>
 
                 <Button Grid.Column="1" Content="Tìm kiếm" Command="{Binding SearchCommand}"
@@ -154,7 +154,7 @@
                         <TextBlock FontSize="16" FontWeight="Bold" 
                                    Foreground="White" HorizontalAlignment="Center">
                             <TextBlock.Text>
-                                <Binding Path="MembersInfo" Converter="{x:Static converters:CountByStatusConverter.Instance}" ConverterParameter="Còn hạn"/>
+                                <Binding Path="MembersInfo" Converter="{StaticResource CountByStatusConverter}" ConverterParameter="Còn hạn"/>
                             </TextBlock.Text>
                         </TextBlock>
                     </StackPanel>
@@ -167,7 +167,7 @@
                         <TextBlock FontSize="16" FontWeight="Bold" 
                                    Foreground="White" HorizontalAlignment="Center">
                             <TextBlock.Text>
-                                <Binding Path="MembersInfo" Converter="{x:Static converters:CountByStatusConverter.Instance}" ConverterParameter="Hết hạn"/>
+                                <Binding Path="MembersInfo" Converter="{StaticResource CountByStatusConverter}" ConverterParameter="Hết hạn"/>
                             </TextBlock.Text>
                         </TextBlock>
                     </StackPanel>
@@ -180,7 +180,7 @@
                         <TextBlock FontSize="16" FontWeight="Bold" 
                                    Foreground="White" HorizontalAlignment="Center">
                             <TextBlock.Text>
-                                <Binding Path="MembersInfo" Converter="{x:Static converters:CountExpiringSoonConverter.Instance}"/>
+                                <Binding Path="MembersInfo" Converter="{StaticResource CountExpiringSoonConverter}"/>
                             </TextBlock.Text>
                         </TextBlock>
                     </StackPanel>

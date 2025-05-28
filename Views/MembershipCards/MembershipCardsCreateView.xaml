@@ -21,9 +21,9 @@
             <StackPanel>
                 <!-- Member Selection -->
                 <Label Content="Thành viên *" FontWeight="Bold"/>
-                <ComboBox ItemsSource="{Binding Members}" 
+                <ComboBox x:Name="MemberComboBox"
+                          ItemsSource="{Binding Members}" 
                           SelectedItem="{Binding SelectedMember}"
-                          DisplayMemberPath="FullName"
                           Margin="0,0,0,15" Padding="8" Height="35">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
@@ -40,7 +40,6 @@
                 <Label Content="Gói tập *" FontWeight="Bold"/>
                 <ComboBox ItemsSource="{Binding Packages}" 
                           SelectedItem="{Binding SelectedPackage}"
-                          DisplayMemberPath="PackageName"
                           Margin="0,0,0,15" Padding="8" Height="35">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>

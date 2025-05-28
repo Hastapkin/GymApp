@@ -186,4 +186,123 @@ public partial class MainWindow : Window
         _timer?.Stop();
         base.OnClosed(e);
     }
+
+    // ✅ KEYBOARD SHORTCUTS
+    protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e)
+    {
+        // Handle global keyboard shortcuts
+        if (e.Key == System.Windows.Input.Key.F1) // Help
+        {
+            ShowHelpDialog();
+            e.Handled = true;
+        }
+        else if (e.Key == System.Windows.Input.Key.F5) // Refresh
+        {
+            RefreshCurrentPage();
+            e.Handled = true;
+        }
+        else if (e.Key == System.Windows.Input.Key.Escape) // Go to Dashboard
+        {
+            Dashboard_Click(null, null);
+            e.Handled = true;
+        }
+        else if (System.Windows.Input.Keyboard.Modifiers == System.Windows.Input.ModifierKeys.Control)
+        {
+            switch (e.Key)
+            {
+                case System.Windows.Input.Key.N: // Ctrl+N - New Member
+                    MemberCreate_Click(null, null);
+                    e.Handled = true;
+                    break;
+                case System.Windows.Input.Key.M: // Ctrl+M - Members List
+                    MemberList_Click(null, null);
+                    e.Handled = true;
+                    break;
+                case System.Windows.Input.Key.P: // Ctrl+P - Packages
+                    PackageList_Click(null, null);
+                    e.Handled = true;
+                    break;
+                case System.Windows.Input.Key.T: // Ctrl+T - Membership Cards
+                    MembershipList_Click(null, null);
+                    e.Handled = true;
+                    break;
+                case System.Windows.Input.Key.S: // Ctrl+S - Staff
+                    StaffList_Click(null, null);
+                    e.Handled = true;
+                    break;
+                case System.Windows.Input.Key.Q: // Ctrl+Q - Quit
+                    Exit_Click(null, null);
+                    e.Handled = true;
+                    break;
+            }
+        }
+
+        base.OnKeyDown(e);
+    }
+
+    /// <summary>
+    /// Show help dialog with keyboard shortcuts
+    /// </summary>
+    private void ShowHelpDialog()
+    {
+        var helpMessage = "🎯 PHÍM TẮT TRONG ỨNG DỤNG:\n\n" +
+            "F1 - Hiển thị trợ giúp\n" +
+            "F5 - Làm mới trang hiện tại\n" +
+            "ESC - Về trang chủ\n\n" +
+            "Ctrl + N - Thêm thành viên mới\n" +
+            "Ctrl + M - Danh sách thành viên\n" +
+            "Ctrl + P - Danh sách gói tập\n" +
+            "Ctrl + T - Danh sách thẻ tập\n" +
+            "Ctrl + S - Danh sách nhân viên\n" +
+            "Ctrl + Q - Thoát ứng dụng\n\n" +
+            "📱 LIÊN HỆ HỖ TRỢ:\n" +
+            "Email: support@gymapp.com\n" +
+            "Hotline: 1800-GYM-APP";
+
+        MessageBox.Show(helpMessage, "Trợ giúp - Gym Management System",
+            MessageBoxButton.OK, MessageBoxImage.Information);
+    }
+
+    /// <summary>
+    /// Refresh current page content
+    /// </summary>
+    private void RefreshCurrentPage()
+    {
+        if (MainFrame.Content != null)
+        {
+            var currentPageType = MainFrame.Content.GetType();
+
+            // Create new instance of current page
+            if (currentPageType == typeof(DashboardView))
+            {
+                MainFrame.Navigate(new DashboardView());
+                StatusText.Text = "Đã làm mới trang chủ";
+            }
+            else if (currentPageType == typeof(MemberListView))
+            {
+                MainFrame.Navigate(new MemberListView());
+                StatusText.Text = "Đã làm mới danh sách thành viên";
+            }
+            else if (currentPageType == typeof(Members_InfoListView))
+            {
+                MainFrame.Navigate(new Members_InfoListView());
+                StatusText.Text = "Đã làm mới thông tin thành viên";
+            }
+            else if (currentPageType == typeof(PackagesListView))
+            {
+                MainFrame.Navigate(new PackagesListView());
+                StatusText.Text = "Đã làm mới danh sách gói tập";
+            }
+            else if (currentPageType == typeof(MembershipCardsListView))
+            {
+                MainFrame.Navigate(new MembershipCardsListView());
+                StatusText.Text = "Đã làm mới danh sách thẻ tập";
+            }
+            else if (currentPageType == typeof(StaffListView))
+            {
+                MainFrame.Navigate(new StaffListView());
+                StatusText.Text = "Đã làm mới danh sách nhân viên";
+            }
+        }
+    }
 }

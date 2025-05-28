@@ -13,6 +13,13 @@
         <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <converters:DaysRemainingMultiConverter x:Key="DaysRemainingMultiConverter"/>
 
+        <!-- ✅ THÊM CÁC CONVERTER BỊ THIẾU -->
+        <converters:LessThanConverter x:Key="LessThanConverter"/>
+        <converters:LessThanEqualConverter x:Key="LessThanEqualConverter"/>
+        <converters:GreaterThanConverter x:Key="GreaterThanConverter"/>
+        <converters:CountByStatusConverter x:Key="CountByStatusConverter"/>
+        <converters:CountExpiringSoonConverter x:Key="CountExpiringSoonConverter"/>
+
         <!-- Global Styles -->
         <Style TargetType="Button">
             <Setter Property="FontSize" Value="12"/>

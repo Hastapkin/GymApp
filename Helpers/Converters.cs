@@ -4,9 +4,11 @@ using System.Collections;
 using System.Linq;
 using System.Windows;
 using System;
+using System.Windows.Media;
 
 namespace GymApp.Helpers;
 
+// ✅ CÁC CONVERTER CƠ BẢN
 public class BoolToStringConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -66,7 +68,7 @@ public class NumberToStringConverter : IValueConverter
     }
 }
 
-// Converter cho so sánh số
+// ✅ CÁC CONVERTER SO SÁNH SỐ
 public class LessThanConverter : IValueConverter
 {
     public static readonly LessThanConverter Instance = new LessThanConverter();
@@ -124,7 +126,7 @@ public class GreaterThanConverter : IValueConverter
     }
 }
 
-// Converter cho collections
+// ✅ CÁC CONVERTER CHO COLLECTIONS
 public class CountByStatusConverter : IValueConverter
 {
     public static readonly CountByStatusConverter Instance = new CountByStatusConverter();
@@ -165,7 +167,7 @@ public class CountExpiringSoonConverter : IValueConverter
     }
 }
 
-// Converter cho null checks
+// ✅ CÁC CONVERTER CHO UI
 public class NullToVisibilityConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -179,7 +181,6 @@ public class NullToVisibilityConverter : IValueConverter
     }
 }
 
-// Converter cho status colors
 public class StatusToColorConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -204,7 +205,6 @@ public class StatusToColorConverter : IValueConverter
     }
 }
 
-// Converter cho days remaining colors
 public class DaysRemainingToColorConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -228,7 +228,6 @@ public class DaysRemainingToColorConverter : IValueConverter
     }
 }
 
-// Multi-value converter cho complex conditions
 public class DaysRemainingMultiConverter : IMultiValueConverter
 {
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
@@ -247,5 +246,267 @@ public class DaysRemainingMultiConverter : IMultiValueConverter
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
     {
         throw new NotImplementedException();
+    }
+}
+
+// ✅ MEMBERSHIP HELPER METHODS (chuyển từ class riêng vào đây)
+public static class MembershipHelper
+{
+    /// <summary>
+    /// Tính số ngày còn lại của thẻ tập
+    /// </summary>
+    public static int CalculateDaysRemaining(DateTime endDate)
+    {
+        return (int)(endDate.Date - DateTime.Now.Date).TotalDays;
+    }
+
+    /// <summary>
+    /// Xác định trạng thái thẻ tập
+    /// </summary>
+    public static string GetMembershipStatus(DateTime endDate)
+    {
+        var daysRemaining = CalculateDaysRemaining(endDate);
+        return daysRemaining >= 0 ? "Còn hạn" : "Hết hạn";
+    }
+
+    /// <summary>
+    /// Lấy màu sắc hiển thị dựa trên số ngày còn lại
+    /// </summary>
+    public static Brush GetStatusColor(int daysRemaining)
+    {
+        if (daysRemaining < 0) return new SolidColorBrush(Colors.Red);
+        if (daysRemaining <= 3) return new SolidColorBrush(Colors.OrangeRed);
+        if (daysRemaining <= 7) return new SolidColorBrush(Colors.Orange);
+        if (daysRemaining <= 30) return new SolidColorBrush(Colors.Gold);
+        return new SolidColorBrush(Colors.Green);
+    }
+
+    /// <summary>
+    /// Format hiển thị thời gian còn lại
+    /// </summary>
+    public static string FormatTimeRemaining(int daysRemaining)
+    {
+        if (daysRemaining < 0) return "Đã hết hạn";
+        if (daysRemaining == 0) return "Hết hạn hôm nay";
+        if (daysRemaining == 1) return "Còn 1 ngày";
+        return $"Còn {daysRemaining} ngày";
+    }
+
+    /// <summary>
+    /// Kiểm tra thẻ tập có hợp lệ để check-in không
+    /// </summary>
+    public static (bool IsValid, string ErrorMessage) ValidateCheckIn(GymApp.Models.Members_Info memberInfo)
+    {
+        if (memberInfo == null)
+            return (false, "Thông tin thành viên không hợp lệ");
+
+        if (memberInfo.Status == "Tạm ngưng")
+            return (false, "Thẻ tập đang bị tạm ngưng");
+
+        if (memberInfo.MembershipStatus == "Hết hạn")
+            return (false, $"Thẻ tập đã hết hạn từ ngày {memberInfo.EndDate:dd/MM/yyyy}");
+
+        return (true, string.Empty);
+    }
+
+    /// <summary>
+    /// Tạo thông báo check-in
+    /// </summary>
+    public static string CreateCheckInMessage(GymApp.Models.Members_Info memberInfo)
+    {
+        var timeRemaining = FormatTimeRemaining(memberInfo.DaysRemaining);
+
+        return $"✅ CHECK-IN THÀNH CÔNG!\n\n" +
+               $"👤 Thành viên: {memberInfo.FullName}\n" +
+               $"📦 Gói tập: {memberInfo.PackageName}\n" +
+               $"⏰ Thời gian: {DateTime.Now:HH:mm dd/MM/yyyy}\n" +
+               $"📅 Thẻ tập: {timeRemaining}\n" +
+               $"💳 Hết hạn: {memberInfo.EndDate:dd/MM/yyyy}";
+    }
+
+    /// <summary>
+    /// Tạo thông báo cảnh báo thẻ sắp hết hạn
+    /// </summary>
+    public static string CreateExpirationWarning(GymApp.Models.Members_Info memberInfo)
+    {
+        if (memberInfo.DaysRemaining <= 0)
+        {
+            return $"⚠️ THẺ ĐÃ HẾT HẠN!\n\n" +
+                   $"👤 Thành viên: {memberInfo.FullName}\n" +
+                   $"📦 Gói tập: {memberInfo.PackageName}\n" +
+                   $"📅 Hết hạn: {memberInfo.EndDate:dd/MM/yyyy}\n" +
+                   $"⏰ Đã hết hạn {Math.Abs(memberInfo.DaysRemaining)} ngày\n\n" +
+                   $"Vui lòng gia hạn thẻ để tiếp tục sử dụng dịch vụ!";
+        }
+        else if (memberInfo.DaysRemaining <= 7)
+        {
+            return $"⚠️ THẺ SẮP HẾT HẠN!\n\n" +
+                   $"👤 Thành viên: {memberInfo.FullName}\n" +
+                   $"📦 Gói tập: {memberInfo.PackageName}\n" +
+                   $"📅 Hết hạn: {memberInfo.EndDate:dd/MM/yyyy}\n" +
+                   $"⏰ Còn lại: {memberInfo.DaysRemaining} ngày\n\n" +
+                   $"Bạn có muốn gia hạn thẻ ngay bây giờ không?";
+        }
+
+        return string.Empty;
+    }
+
+    /// <summary>
+    /// Validate thông tin member trước khi tạo
+    /// </summary>
+    public static (bool IsValid, string ErrorMessage) ValidateMember(GymApp.Models.Member member)
+    {
+        if (member == null)
+            return (false, "Thông tin thành viên không được để trống");
+
+        if (string.IsNullOrWhiteSpace(member.FullName))
+            return (false, "Vui lòng nhập họ tên");
+
+        if (member.FullName.Length < 2)
+            return (false, "Họ tên phải có ít nhất 2 ký tự");
+
+        if (member.FullName.Length > 100)
+            return (false, "Họ tên không được quá 100 ký tự");
+
+        // Validate phone nếu có
+        if (!string.IsNullOrWhiteSpace(member.Phone))
+        {
+            if (member.Phone.Length < 10 || member.Phone.Length > 11)
+                return (false, "Số điện thoại phải có 10-11 chữ số");
+
+            if (!System.Text.RegularExpressions.Regex.IsMatch(member.Phone, @"^[0-9]+$"))
+                return (false, "Số điện thoại chỉ được chứa chữ số");
+        }
+
+        // Validate email nếu có
+        if (!string.IsNullOrWhiteSpace(member.Email))
+        {
+            if (!IsValidEmail(member.Email))
+                return (false, "Email không đúng định dạng");
+        }
+
+        return (true, string.Empty);
+    }
+
+    /// <summary>
+    /// Kiểm tra email hợp lệ
+    /// </summary>
+    private static bool IsValidEmail(string email)
+    {
+        try
+        {
+            var addr = new System.Net.Mail.MailAddress(email);
+            return addr.Address == email;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Lấy icon emoji dựa trên trạng thái thẻ
+    /// </summary>
+    public static string GetStatusIcon(string membershipStatus, int daysRemaining)
+    {
+        if (membershipStatus == "Hết hạn" || daysRemaining < 0)
+            return "🔴";
+
+        if (daysRemaining <= 3)
+            return "🔴";
+
+        if (daysRemaining <= 7)
+            return "🟡";
+
+        if (daysRemaining <= 30)
+            return "🟢";
+
+        return "💚";
+    }
+
+    /// <summary>
+    /// Tính toán ngày kết thúc dựa trên gói tập
+    /// </summary>
+    public static DateTime CalculateEndDate(DateTime startDate, int durationDays)
+    {
+        return startDate.AddDays(durationDays);
+    }
+
+    /// <summary>
+    /// Tính giá gia hạn dựa trên số ngày
+    /// </summary>
+    public static decimal CalculateExtensionPrice(decimal originalPrice, int originalDays, int extensionDays)
+    {
+        if (originalDays <= 0) return 0;
+
+        var dailyRate = originalPrice / originalDays;
+        return Math.Round(dailyRate * extensionDays, 0);
+    }
+
+    /// <summary>
+    /// Validate thông tin thẻ tập trước khi tạo
+    /// </summary>
+    public static (bool IsValid, string ErrorMessage) ValidateMembershipCard(GymApp.Models.MembershipCards membershipCard)
+    {
+        if (membershipCard == null)
+            return (false, "Thông tin thẻ tập không được để trống");
+
+        if (membershipCard.MemberId <= 0)
+            return (false, "Vui lòng chọn thành viên");
+
+        if (membershipCard.PackageId <= 0)
+            return (false, "Vui lòng chọn gói tập");
+
+        if (membershipCard.StartDate >= membershipCard.EndDate)
+            return (false, "Ngày kết thúc phải sau ngày bắt đầu");
+
+        if (membershipCard.Price <= 0)
+            return (false, "Giá thẻ tập phải lớn hơn 0");
+
+        if (membershipCard.StartDate.Date < DateTime.Now.Date.AddDays(-30))
+            return (false, "Ngày bắt đầu không được quá xa trong quá khứ");
+
+        if (membershipCard.EndDate.Date > DateTime.Now.Date.AddYears(2))
+            return (false, "Ngày kết thúc không được quá 2 năm từ hiện tại");
+
+        return (true, string.Empty);
+    }
+
+    /// <summary>
+    /// Tạo ghi chú gia hạn
+    /// </summary>
+    public static string CreateExtensionNote(int extensionDays, decimal extensionPrice, string packageName = null)
+    {
+        var note = $"Gia hạn {extensionDays} ngày - {extensionPrice:N0} VNĐ ({DateTime.Now:dd/MM/yyyy})";
+
+        if (!string.IsNullOrEmpty(packageName))
+            note = $"{note} - {packageName}";
+
+        return note;
+    }
+
+    /// <summary>
+    /// Tính toán giảm giá cho gia hạn sớm
+    /// </summary>
+    public static decimal CalculateEarlyRenewalDiscount(int daysBeforeExpiry, decimal originalPrice)
+    {
+        // Giảm giá 5% nếu gia hạn trước 30 ngày
+        if (daysBeforeExpiry >= 30)
+            return originalPrice * 0.95m;
+
+        // Giảm giá 3% nếu gia hạn trước 15 ngày
+        if (daysBeforeExpiry >= 15)
+            return originalPrice * 0.97m;
+
+        return originalPrice;
+    }
+
+    /// <summary>
+    /// Tạo mã thẻ tập tự động
+    /// </summary>
+    public static string GenerateMembershipCode(int memberId, int packageId)
+    {
+        var date = DateTime.Now.ToString("yyMMdd");
+        return $"GYM{date}M{memberId:D4}P{packageId:D2}";
     }
 }
