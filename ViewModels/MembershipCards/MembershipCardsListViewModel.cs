@@ -61,13 +61,14 @@ namespace GymApp.ViewModels.MembershipCards
                 using var connection = _dbContext.GetConnection();
                 connection.Open();
 
+                // ✅ FIX: ORDER BY mc.Id ASC để thẻ tập mới ở cuối
                 string sql = @"SELECT mc.Id, mc.MemberId, mc.PackageId, mc.StartDate, mc.EndDate, 
                               mc.Price, mc.PaymentMethod, mc.Status, mc.Notes, mc.CreatedDate, mc.CreatedBy,
                               m.FullName as MemberName, p.PackageName
                               FROM MembershipCards mc
                               LEFT JOIN Members m ON mc.MemberId = m.Id
                               LEFT JOIN Packages p ON mc.PackageId = p.Id
-                              ORDER BY mc.Id ASC";
+                              ORDER BY mc.Id ASC"; // ← QUAN TRỌNG: mc.Id tăng dần
 
                 using var cmd = new OracleCommand(sql, connection);
                 using var reader = cmd.ExecuteReader();
@@ -92,6 +93,13 @@ namespace GymApp.ViewModels.MembershipCards
                     };
                     MembershipCards.Add(membershipCard);
                 }
+
+                // Debug để xác nhận thứ tự
+                System.Diagnostics.Debug.WriteLine($"MembershipCards loaded in order:");
+                for (int i = 0; i < MembershipCards.Count; i++)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Position {i}: ID={MembershipCards[i].Id}, Member={MembershipCards[i].MemberName}");
+                }
             }
             catch (Exception ex)
             {
@@ -113,6 +121,7 @@ namespace GymApp.ViewModels.MembershipCards
                 using var connection = _dbContext.GetConnection();
                 connection.Open();
 
+                // ✅ FIX: ORDER BY mc.Id ASC trong search
                 string sql = @"SELECT mc.Id, mc.MemberId, mc.PackageId, mc.StartDate, mc.EndDate, 
                               mc.Price, mc.PaymentMethod, mc.Status, mc.Notes, mc.CreatedDate, mc.CreatedBy,
                               m.FullName as MemberName, p.PackageName
@@ -122,7 +131,7 @@ namespace GymApp.ViewModels.MembershipCards
                               WHERE UPPER(m.FullName) LIKE UPPER(:searchText) 
                               OR UPPER(p.PackageName) LIKE UPPER(:searchText)
                               OR UPPER(mc.Status) LIKE UPPER(:searchText)
-                              ORDER BY mc.Id ASC";
+                              ORDER BY mc.Id ASC"; // ← QUAN TRỌNG: Giữ thứ tự mc.Id tăng dần
 
                 using var cmd = new OracleCommand(sql, connection);
                 cmd.Parameters.Add(":searchText", $"%{SearchText}%");

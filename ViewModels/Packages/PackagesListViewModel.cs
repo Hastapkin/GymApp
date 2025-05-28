@@ -61,8 +61,10 @@ namespace GymApp.ViewModels.Packages
                 using var connection = _dbContext.GetConnection();
                 connection.Open();
 
+                // ✅ FIX: ORDER BY Id ASC để package mới (ID lớn hơn) xuất hiện ở cuối
                 string sql = @"SELECT Id, PackageName, Description, DurationDays, Price, IsActive, CreatedDate 
-                              FROM Packages ORDER BY Id ASC";
+                              FROM Packages 
+                              ORDER BY Id ASC"; // ← QUAN TRỌNG: Id tăng dần = package mới ở cuối
 
                 using var cmd = new OracleCommand(sql, connection);
                 using var reader = cmd.ExecuteReader();
@@ -79,7 +81,15 @@ namespace GymApp.ViewModels.Packages
                         IsActive = Convert.ToInt32(reader["IsActive"]) == 1,
                         CreatedDate = Convert.ToDateTime(reader["CreatedDate"])
                     };
-                    Packages.Add(package);
+
+                    Packages.Add(package); // Add theo thứ tự Id tăng dần
+                }
+
+                // Debug để xác nhận thứ tự
+                System.Diagnostics.Debug.WriteLine($"Packages loaded in order:");
+                for (int i = 0; i < Packages.Count; i++)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Position {i}: ID={Packages[i].Id}, Name={Packages[i].PackageName}");
                 }
             }
             catch (Exception ex)
@@ -102,11 +112,12 @@ namespace GymApp.ViewModels.Packages
                 using var connection = _dbContext.GetConnection();
                 connection.Open();
 
+                // ✅ FIX: ORDER BY Id ASC trong search cũng vậy
                 string sql = @"SELECT Id, PackageName, Description, DurationDays, Price, IsActive, CreatedDate 
                               FROM Packages 
                               WHERE UPPER(PackageName) LIKE UPPER(:searchText) 
                               OR UPPER(Description) LIKE UPPER(:searchText)
-                              ORDER BY Id ASC";
+                              ORDER BY Id ASC"; // ← QUAN TRỌNG: Giữ thứ tự Id tăng dần
 
                 using var cmd = new OracleCommand(sql, connection);
                 cmd.Parameters.Add(":searchText", $"%{SearchText}%");
