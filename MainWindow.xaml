@@ -15,21 +15,21 @@
         <Menu Grid.Row="0" Background="#2C3E50" Foreground="White" Padding="5">
             <MenuItem Header="Trang chủ" Click="Dashboard_Click" Foreground="White"/>
             <MenuItem Header="Thành viên" Foreground="White">
-                <MenuItem Header="Danh sách thành viên" Click="MemberList_Click"/>
-                <MenuItem Header="Thêm thành viên" Click="MemberCreate_Click"/>
-                <MenuItem Header="Thông tin thành viên" Click="MemberInfo_Click"/>
+                <MenuItem Header="Danh sách thành viên" Background="#34495E" Click="MemberList_Click"/>
+                <MenuItem Header="Thêm thành viên" Background="#34495E" Click="MemberCreate_Click"/>
+                <MenuItem Header="Thông tin thành viên" Background="#34495E" Click="MemberInfo_Click"/>
             </MenuItem>
             <MenuItem Header="Gói tập" Foreground="White">
-                <MenuItem Header="Danh sách gói tập" Click="PackageList_Click"/>
-                <MenuItem Header="Thêm gói tập" Click="PackageCreate_Click"/>
+                <MenuItem Header="Danh sách gói tập" Background="#34495E" Click="PackageList_Click"/>
+                <MenuItem Header="Thêm gói tập" Background="#34495E" Click="PackageCreate_Click"/>
             </MenuItem>
             <MenuItem Header="Thẻ tập" Foreground="White">
-                <MenuItem Header="Danh sách thẻ tập" Click="MembershipList_Click"/>
-                <MenuItem Header="Tạo thẻ tập" Click="MembershipCreate_Click"/>
+                <MenuItem Header="Danh sách thẻ tập" Background="#34495E" Click="MembershipList_Click"/>
+                <MenuItem Header="Tạo thẻ tập" Background="#34495E" Click="MembershipCreate_Click"/>
             </MenuItem>
             <MenuItem Header="Nhân viên" Foreground="White">
-                <MenuItem Header="Danh sách nhân viên" Click="StaffList_Click"/>
-                <MenuItem Header="Thêm nhân viên" Click="StaffCreate_Click"/>
+                <MenuItem Header="Danh sách nhân viên" Background="#34495E" Click="StaffList_Click"/>
+                <MenuItem Header="Thêm nhân viên" Background="#34495E" Click="StaffCreate_Click"/>
             </MenuItem>
         </Menu>
 

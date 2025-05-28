@@ -63,7 +63,7 @@ namespace GymApp.ViewModels.Member
 
                 string sql = @"SELECT Id, FullName, Phone, Email, Gender, DateOfBirth, Address, 
                               JoinDate, IsActive, Notes, CreatedDate, UpdatedDate 
-                              FROM Members ORDER BY Id DESC";
+                              FROM Members ORDER BY Id ASC";
 
                 using var cmd = new OracleCommand(sql, connection);
                 using var reader = cmd.ExecuteReader();
@@ -114,7 +114,7 @@ namespace GymApp.ViewModels.Member
                               WHERE UPPER(FullName) LIKE UPPER(:searchText) 
                               OR UPPER(Phone) LIKE UPPER(:searchText)
                               OR UPPER(Email) LIKE UPPER(:searchText)
-                              ORDER BY Id DESC";
+                              ORDER BY Id ASC";
 
                 using var cmd = new OracleCommand(sql, connection);
                 cmd.Parameters.Add(":searchText", $"%{SearchText}%");

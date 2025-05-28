@@ -51,7 +51,7 @@ namespace GymApp.ViewModels.Members_Info
         };
 
         public ICommand LoadDataCommand { get; }
-        private ICommand SearchCommand { get; }
+        public ICommand SearchCommand { get; }
         public ICommand RefreshCommand { get; }
         public ICommand ExtendMembershipCommand { get; }
         public ICommand CheckInCommand { get; }
@@ -84,7 +84,7 @@ namespace GymApp.ViewModels.Members_Info
 
                 string sql = @"SELECT Id, FullName, Phone, Email, Gender, JoinDate, StartDate, EndDate, 
                               PackageName, Price, Status, MembershipStatus, DaysRemaining 
-                              FROM V_MemberInfo ORDER BY DaysRemaining ASC, FullName";
+                              FROM V_MemberInfo ORDER BY Id ASC, DaysRemaining ASC";
 
                 using var cmd = new OracleCommand(sql, connection);
                 using var reader = cmd.ExecuteReader();

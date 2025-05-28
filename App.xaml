@@ -1,13 +1,17 @@
 ﻿<Application x:Class="GymApp.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:GymApp.Helpers"
              StartupUri="MainWindow.xaml">
-</Application>
     <Application.Resources>
         <!-- Converters -->
         <converters:BoolToStringConverter x:Key="BoolToStringConverter"/>
         <converters:DateTimeConverter x:Key="DateTimeConverter"/>
         <converters:NumberToStringConverter x:Key="NumberToStringConverter"/>
+        <converters:StatusToColorConverter x:Key="StatusToColorConverter"/>
+        <converters:DaysRemainingToColorConverter x:Key="DaysRemainingToColorConverter"/>
+        <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+        <converters:DaysRemainingMultiConverter x:Key="DaysRemainingMultiConverter"/>
 
         <!-- Global Styles -->
         <Style TargetType="Button">

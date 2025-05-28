@@ -67,7 +67,7 @@ namespace GymApp.ViewModels.MembershipCards
                               FROM MembershipCards mc
                               LEFT JOIN Members m ON mc.MemberId = m.Id
                               LEFT JOIN Packages p ON mc.PackageId = p.Id
-                              ORDER BY mc.Id DESC";
+                              ORDER BY mc.Id ASC";
 
                 using var cmd = new OracleCommand(sql, connection);
                 using var reader = cmd.ExecuteReader();
@@ -122,7 +122,7 @@ namespace GymApp.ViewModels.MembershipCards
                               WHERE UPPER(m.FullName) LIKE UPPER(:searchText) 
                               OR UPPER(p.PackageName) LIKE UPPER(:searchText)
                               OR UPPER(mc.Status) LIKE UPPER(:searchText)
-                              ORDER BY mc.Id DESC";
+                              ORDER BY mc.Id ASC";
 
                 using var cmd = new OracleCommand(sql, connection);
                 cmd.Parameters.Add(":searchText", $"%{SearchText}%");

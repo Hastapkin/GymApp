@@ -1,6 +1,7 @@
 ﻿<Page x:Class="GymApp.Views.Members_Info.Members_InfoListView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:converters="clr-namespace:GymApp.Helpers"
       Title="Thông tin thành viên">
 
     <Grid Margin="20">
@@ -103,20 +104,8 @@
                 <DataGridTextColumn Header="Còn lại" Binding="{Binding DaysRemaining}" Width="60">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding DaysRemaining}" Value="0">
-                                    <Setter Property="Foreground" Value="Red"/>
-                                    <Setter Property="FontWeight" Value="Bold"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding Path=DaysRemaining, Converter={x:Static local:LessThanConverter.Instance}, ConverterParameter=7}" Value="True">
-                                    <Setter Property="Foreground" Value="Orange"/>
-                                    <Setter Property="FontWeight" Value="Bold"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding Path=DaysRemaining, Converter={x:Static local:GreaterThanConverter.Instance}, ConverterParameter=30}" Value="True">
-                                    <Setter Property="Foreground" Value="Green"/>
-                                    <Setter Property="FontWeight" Value="Bold"/>
-                                </DataTrigger>
-                            </Style.Triggers>
+                            <Setter Property="Foreground" Value="{Binding DaysRemaining, Converter={StaticResource DaysRemainingToColorConverter}}"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
@@ -165,7 +154,7 @@
                         <TextBlock FontSize="16" FontWeight="Bold" 
                                    Foreground="White" HorizontalAlignment="Center">
                             <TextBlock.Text>
-                                <Binding Path="MembersInfo" Converter="{x:Static local:CountByStatusConverter.Instance}" ConverterParameter="Còn hạn"/>
+                                <Binding Path="MembersInfo" Converter="{x:Static converters:CountByStatusConverter.Instance}" ConverterParameter="Còn hạn"/>
                             </TextBlock.Text>
                         </TextBlock>
                     </StackPanel>
@@ -178,7 +167,7 @@
                         <TextBlock FontSize="16" FontWeight="Bold" 
                                    Foreground="White" HorizontalAlignment="Center">
                             <TextBlock.Text>
-                                <Binding Path="MembersInfo" Converter="{x:Static local:CountByStatusConverter.Instance}" ConverterParameter="Hết hạn"/>
+                                <Binding Path="MembersInfo" Converter="{x:Static converters:CountByStatusConverter.Instance}" ConverterParameter="Hết hạn"/>
                             </TextBlock.Text>
                         </TextBlock>
                     </StackPanel>
@@ -191,7 +180,7 @@
                         <TextBlock FontSize="16" FontWeight="Bold" 
                                    Foreground="White" HorizontalAlignment="Center">
                             <TextBlock.Text>
-                                <Binding Path="MembersInfo" Converter="{x:Static local:CountExpiringSoonConverter.Instance}"/>
+                                <Binding Path="MembersInfo" Converter="{x:Static converters:CountExpiringSoonConverter.Instance}"/>
                             </TextBlock.Text>
                         </TextBlock>
                     </StackPanel>
