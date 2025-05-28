@@ -26,7 +26,7 @@
 
             <TextBox Grid.Column="0" x:Name="SearchTextBox" 
                      Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                     FontSize="14" Padding="10" Height="35"
+                     FontSize="14" Padding="0" Height="auto"
                      VerticalContentAlignment="Center"/>
 
             <Button Grid.Column="1" Content="Tìm kiếm" Command="{Binding SearchCommand}"

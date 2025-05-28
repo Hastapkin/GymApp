@@ -33,7 +33,15 @@ public partial class MainWindow : Window
     private void MemberCreate_Click(object sender, RoutedEventArgs e)
     {
         var createWindow = new MemberCreateView();
-        createWindow.ShowDialog();
+        if (createWindow.ShowDialog() == true)
+        {
+            // Refresh member list if currently displayed
+            if (MainFrame.Content is MemberListView)
+            {
+                MainFrame.Navigate(new MemberListView());
+                StatusText.Text = "Đã thêm thành viên mới và làm mới danh sách";
+            }
+        }
     }
 
     private void MemberInfo_Click(object sender, RoutedEventArgs e)

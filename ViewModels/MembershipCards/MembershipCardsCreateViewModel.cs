@@ -180,12 +180,22 @@ namespace GymApp.ViewModels.MembershipCards
                 using var connection = _dbContext.GetConnection();
                 connection.Open();
 
-                string sql = @"INSERT INTO MembershipCards (MemberId, PackageId, StartDate, EndDate, Price, 
+                // Get next ID to ensure proper sequence
+                string getNextIdSql = "SELECT NVL(MAX(Id), 0) + 1 FROM MembershipCards";
+                int nextId;
+                using (var getIdCmd = new OracleCommand(getNextIdSql, connection))
+                {
+                    var result = getIdCmd.ExecuteScalar();
+                    nextId = result != null ? Convert.ToInt32(result) : 1;
+                }
+
+                string sql = @"INSERT INTO MembershipCards (Id, MemberId, PackageId, StartDate, EndDate, Price, 
                               PaymentMethod, Status, Notes, CreatedDate, CreatedBy) 
-                              VALUES (:memberId, :packageId, :startDate, :endDate, :price, 
+                              VALUES (:id, :memberId, :packageId, :startDate, :endDate, :price, 
                               :paymentMethod, :status, :notes, :createdDate, :createdBy)";
 
                 using var cmd = new OracleCommand(sql, connection);
+                cmd.Parameters.Add(":id", nextId);
                 cmd.Parameters.Add(":memberId", MembershipCard.MemberId);
                 cmd.Parameters.Add(":packageId", MembershipCard.PackageId);
                 cmd.Parameters.Add(":startDate", MembershipCard.StartDate);
@@ -200,7 +210,7 @@ namespace GymApp.ViewModels.MembershipCards
                 int rowsAffected = cmd.ExecuteNonQuery();
                 if (rowsAffected > 0)
                 {
-                    MessageBox.Show("Tạo thẻ tập thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show($"Tạo thẻ tập thành công! ID: {nextId}", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
                     RequestClose?.Invoke(true);
                 }
             }

@@ -60,10 +60,20 @@ namespace GymApp.ViewModels.Packages
                 using var connection = _dbContext.GetConnection();
                 connection.Open();
 
-                string sql = @"INSERT INTO Packages (PackageName, Description, DurationDays, Price, IsActive, CreatedDate) 
-                              VALUES (:packageName, :description, :durationDays, :price, :isActive, :createdDate)";
+                // Get next ID to ensure proper sequence
+                string getNextIdSql = "SELECT NVL(MAX(Id), 0) + 1 FROM Packages";
+                int nextId;
+                using (var getIdCmd = new OracleCommand(getNextIdSql, connection))
+                {
+                    var result = getIdCmd.ExecuteScalar();
+                    nextId = result != null ? Convert.ToInt32(result) : 1;
+                }
+
+                string sql = @"INSERT INTO Packages (Id, PackageName, Description, DurationDays, Price, IsActive, CreatedDate) 
+                              VALUES (:id, :packageName, :description, :durationDays, :price, :isActive, :createdDate)";
 
                 using var cmd = new OracleCommand(sql, connection);
+                cmd.Parameters.Add(":id", nextId);
                 cmd.Parameters.Add(":packageName", Package.PackageName);
                 cmd.Parameters.Add(":description", Package.Description ?? (object)DBNull.Value);
                 cmd.Parameters.Add(":durationDays", Package.DurationDays);
@@ -74,7 +84,7 @@ namespace GymApp.ViewModels.Packages
                 int rowsAffected = cmd.ExecuteNonQuery();
                 if (rowsAffected > 0)
                 {
-                    MessageBox.Show("Thêm gói tập thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show($"Thêm gói tập thành công! ID: {nextId}", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
                     RequestClose?.Invoke(true);
                 }
             }

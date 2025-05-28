@@ -76,12 +76,22 @@ namespace GymApp.ViewModels.Staff
                 using var connection = _dbContext.GetConnection();
                 connection.Open();
 
-                string sql = @"INSERT INTO Staff (FullName, Phone, Email, Role, StartDate, Salary, 
+                // Get next ID to ensure proper sequence
+                string getNextIdSql = "SELECT NVL(MAX(Id), 0) + 1 FROM Staff";
+                int nextId;
+                using (var getIdCmd = new OracleCommand(getNextIdSql, connection))
+                {
+                    var result = getIdCmd.ExecuteScalar();
+                    nextId = result != null ? Convert.ToInt32(result) : 1;
+                }
+
+                string sql = @"INSERT INTO Staff (Id, FullName, Phone, Email, Role, StartDate, Salary, 
                               Address, IsActive, Notes, CreatedDate) 
-                              VALUES (:fullName, :phone, :email, :role, :startDate, :salary, 
+                              VALUES (:id, :fullName, :phone, :email, :role, :startDate, :salary, 
                               :address, :isActive, :notes, :createdDate)";
 
                 using var cmd = new OracleCommand(sql, connection);
+                cmd.Parameters.Add(":id", nextId);
                 cmd.Parameters.Add(":fullName", Staff.FullName);
                 cmd.Parameters.Add(":phone", Staff.Phone ?? (object)DBNull.Value);
                 cmd.Parameters.Add(":email", Staff.Email ?? (object)DBNull.Value);
@@ -96,7 +106,7 @@ namespace GymApp.ViewModels.Staff
                 int rowsAffected = cmd.ExecuteNonQuery();
                 if (rowsAffected > 0)
                 {
-                    MessageBox.Show("Thêm nhân viên thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show($"Thêm nhân viên thành công! ID: {nextId}", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
                     RequestClose?.Invoke(true);
                 }
             }

@@ -51,12 +51,22 @@ namespace GymApp.ViewModels.Member
                 using var connection = _dbContext.GetConnection();
                 connection.Open();
 
-                string sql = @"INSERT INTO Members (FullName, Phone, Email, Gender, DateOfBirth, Address, 
+                // Get next ID to ensure proper sequence
+                string getNextIdSql = "SELECT NVL(MAX(Id), 0) + 1 FROM Members";
+                int nextId;
+                using (var getIdCmd = new OracleCommand(getNextIdSql, connection))
+                {
+                    var result = getIdCmd.ExecuteScalar();
+                    nextId = result != null ? Convert.ToInt32(result) : 1;
+                }
+
+                string sql = @"INSERT INTO Members (Id, FullName, Phone, Email, Gender, DateOfBirth, Address, 
                               JoinDate, IsActive, Notes, CreatedDate, UpdatedDate) 
-                              VALUES (:fullName, :phone, :email, :gender, :dateOfBirth, :address, 
+                              VALUES (:id, :fullName, :phone, :email, :gender, :dateOfBirth, :address, 
                               :joinDate, :isActive, :notes, :createdDate, :updatedDate)";
 
                 using var cmd = new OracleCommand(sql, connection);
+                cmd.Parameters.Add(":id", nextId);
                 cmd.Parameters.Add(":fullName", Member.FullName);
                 cmd.Parameters.Add(":phone", Member.Phone ?? (object)DBNull.Value);
                 cmd.Parameters.Add(":email", Member.Email ?? (object)DBNull.Value);
@@ -72,7 +82,7 @@ namespace GymApp.ViewModels.Member
                 int rowsAffected = cmd.ExecuteNonQuery();
                 if (rowsAffected > 0)
                 {
-                    MessageBox.Show("Thêm thành viên thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show($"Thêm thành viên thành công! ID: {nextId}", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
                     RequestClose?.Invoke(true);
                 }
             }

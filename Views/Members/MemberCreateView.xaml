@@ -45,12 +45,6 @@
                 <DatePicker SelectedDate="{Binding Member.DateOfBirth}" 
                             Margin="0,0,0,15" Padding="8" Height="35"/>
 
-                <!-- Address -->
-                <Label Content="Địa chỉ" FontWeight="Bold"/>
-                <TextBox Text="{Binding Member.Address, UpdateSourceTrigger=PropertyChanged}" 
-                         Margin="0,0,0,15" Padding="8" Height="60" 
-                         TextWrapping="Wrap" AcceptsReturn="True"/>
-
                 <!-- Join Date -->
                 <Label Content="Ngày tham gia" FontWeight="Bold"/>
                 <DatePicker SelectedDate="{Binding Member.JoinDate}" 
@@ -59,12 +53,7 @@
                 <!-- Is Active -->
                 <CheckBox Content="Hoạt động" IsChecked="{Binding Member.IsActive}" 
                           Margin="0,0,0,15" FontWeight="Bold"/>
-
-                <!-- Notes -->
-                <Label Content="Ghi chú" FontWeight="Bold"/>
-                <TextBox Text="{Binding Member.Notes, UpdateSourceTrigger=PropertyChanged}" 
-                         Margin="0,0,0,15" Padding="8" Height="80"
-                         TextWrapping="Wrap" AcceptsReturn="True"/>
+                
             </StackPanel>
         </ScrollViewer>
 
