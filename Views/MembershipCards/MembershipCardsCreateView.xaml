@@ -25,7 +25,6 @@
                           ItemsSource="{Binding Members}" 
                           SelectedItem="{Binding SelectedMember}"
                           Margin="0,0,0,15" Padding="8" Height="35">
-                    <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="{Binding FullName}" FontWeight="Bold"/>
@@ -33,7 +32,6 @@
                                 <TextBlock Text="{Binding Phone}" Foreground="Gray"/>
                             </StackPanel>
                         </DataTemplate>
-                    </ComboBox.ItemTemplate>
                 </ComboBox>
 
                 <!-- Package Selection -->
@@ -41,7 +39,6 @@
                 <ComboBox ItemsSource="{Binding Packages}" 
                           SelectedItem="{Binding SelectedPackage}"
                           Margin="0,0,0,15" Padding="8" Height="35">
-                    <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="{Binding PackageName}" FontWeight="Bold"/>
@@ -52,7 +49,6 @@
                                 <TextBlock Text=" VNĐ" Margin="2,0,0,0" Foreground="Green"/>
                             </StackPanel>
                         </DataTemplate>
-                    </ComboBox.ItemTemplate>
                 </ComboBox>
 
                 <!-- Start Date -->

@@ -55,12 +55,16 @@ public class NumberToStringConverter : IValueConverter
         {
             return decimalValue.ToString("N0");
         }
+        if (value is int intValue)
+        {
+            return intValue.ToString("N0");
+        }
         return "0";
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (decimal.TryParse(value?.ToString(), out decimal result))
+        if (decimal.TryParse(value?.ToString()?.Replace(",", ""), out decimal result))
         {
             return result;
         }
@@ -71,8 +75,6 @@ public class NumberToStringConverter : IValueConverter
 // ✅ CÁC CONVERTER SO SÁNH SỐ
 public class LessThanConverter : IValueConverter
 {
-    public static readonly LessThanConverter Instance = new LessThanConverter();
-
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         if (value is int intValue && parameter is string paramStr && int.TryParse(paramStr, out int threshold))
@@ -90,8 +92,6 @@ public class LessThanConverter : IValueConverter
 
 public class LessThanEqualConverter : IValueConverter
 {
-    public static readonly LessThanEqualConverter Instance = new LessThanEqualConverter();
-
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         if (value is int intValue && parameter is string paramStr && int.TryParse(paramStr, out int threshold))
@@ -109,8 +109,6 @@ public class LessThanEqualConverter : IValueConverter
 
 public class GreaterThanConverter : IValueConverter
 {
-    public static readonly GreaterThanConverter Instance = new GreaterThanConverter();
-
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         if (value is int intValue && parameter is string paramStr && int.TryParse(paramStr, out int threshold))
@@ -129,14 +127,19 @@ public class GreaterThanConverter : IValueConverter
 // ✅ CÁC CONVERTER CHO COLLECTIONS
 public class CountByStatusConverter : IValueConverter
 {
-    public static readonly CountByStatusConverter Instance = new CountByStatusConverter();
-
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         if (value is IEnumerable collection && parameter is string status)
         {
-            return collection.Cast<GymApp.Models.Members_Info>()
-                .Count(m => m.MembershipStatus == status);
+            try
+            {
+                return collection.Cast<GymApp.Models.Members_Info>()
+                    .Count(m => m.MembershipStatus == status);
+            }
+            catch
+            {
+                return 0;
+            }
         }
         return 0;
     }
@@ -149,14 +152,19 @@ public class CountByStatusConverter : IValueConverter
 
 public class CountExpiringSoonConverter : IValueConverter
 {
-    public static readonly CountExpiringSoonConverter Instance = new CountExpiringSoonConverter();
-
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         if (value is IEnumerable collection)
         {
-            return collection.Cast<GymApp.Models.Members_Info>()
-                .Count(m => m.MembershipStatus == "Còn hạn" && m.DaysRemaining <= 7);
+            try
+            {
+                return collection.Cast<GymApp.Models.Members_Info>()
+                    .Count(m => m.MembershipStatus == "Còn hạn" && m.DaysRemaining <= 7);
+            }
+            catch
+            {
+                return 0;
+            }
         }
         return 0;
     }
@@ -172,7 +180,11 @@ public class NullToVisibilityConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        return value == null ? Visibility.Collapsed : Visibility.Visible;
+        if (value == null || (value is string str && string.IsNullOrWhiteSpace(str)))
+        {
+            return Visibility.Collapsed;
+        }
+        return Visibility.Visible;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -187,16 +199,18 @@ public class StatusToColorConverter : IValueConverter
     {
         if (value is string status)
         {
-            return status switch
+            var color = status switch
             {
                 "Hoạt động" => "#27AE60",
-                "Hết hạn" => "#E74C3C",
+                "Hết hạn" => "#E74C3C", 
                 "Tạm ngưng" => "#F39C12",
                 "Còn hạn" => "#27AE60",
                 _ => "#95A5A6"
             };
+
+            return new SolidColorBrush((Color)ColorConverter.ConvertFromString(color));
         }
-        return "#95A5A6";
+        return new SolidColorBrush(Colors.Gray);
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -211,15 +225,17 @@ public class DaysRemainingToColorConverter : IValueConverter
     {
         if (value is int days)
         {
-            return days switch
+            var color = days switch
             {
                 <= 0 => "#E74C3C",      // Red - Hết hạn
                 <= 7 => "#F39C12",      // Orange - Sắp hết hạn  
                 <= 30 => "#F1C40F",     // Yellow - Cảnh báo
                 _ => "#27AE60"          // Green - Còn nhiều
             };
+
+            return new SolidColorBrush((Color)ColorConverter.ConvertFromString(color));
         }
-        return "#95A5A6";
+        return new SolidColorBrush(Colors.Gray);
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -234,18 +250,39 @@ public class DaysRemainingMultiConverter : IMultiValueConverter
     {
         if (values.Length >= 2 && values[0] is int days && values[1] is string status)
         {
-            if (status == "Hết hạn") return "#E74C3C";
-            if (days <= 0) return "#E74C3C";
-            if (days <= 7) return "#F39C12";
-            if (days <= 30) return "#F1C40F";
-            return "#27AE60";
+            string color;
+            if (status == "Hết hạn") color = "#E74C3C";
+            else if (days <= 0) color = "#E74C3C";
+            else if (days <= 7) color = "#F39C12";
+            else if (days <= 30) color = "#F1C40F";
+            else color = "#27AE60";
+
+            return new SolidColorBrush((Color)ColorConverter.ConvertFromString(color));
         }
-        return "#95A5A6";
+        return new SolidColorBrush(Colors.Gray);
     }
 
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
     {
         throw new NotImplementedException();
+    }
+}
+
+// ✅ THÊM CÁC CONVERTER BỊ THIẾU KHÁC
+public class BoolToStringConverter2 : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is bool boolValue)
+        {
+            return boolValue ? "Có" : "Không";
+        }
+        return "Không";
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return value?.ToString() == "Có";
     }
 }
 
@@ -349,164 +386,5 @@ public static class MembershipHelper
         }
 
         return string.Empty;
-    }
-
-    /// <summary>
-    /// Validate thông tin member trước khi tạo
-    /// </summary>
-    public static (bool IsValid, string ErrorMessage) ValidateMember(GymApp.Models.Member member)
-    {
-        if (member == null)
-            return (false, "Thông tin thành viên không được để trống");
-
-        if (string.IsNullOrWhiteSpace(member.FullName))
-            return (false, "Vui lòng nhập họ tên");
-
-        if (member.FullName.Length < 2)
-            return (false, "Họ tên phải có ít nhất 2 ký tự");
-
-        if (member.FullName.Length > 100)
-            return (false, "Họ tên không được quá 100 ký tự");
-
-        // Validate phone nếu có
-        if (!string.IsNullOrWhiteSpace(member.Phone))
-        {
-            if (member.Phone.Length < 10 || member.Phone.Length > 11)
-                return (false, "Số điện thoại phải có 10-11 chữ số");
-
-            if (!System.Text.RegularExpressions.Regex.IsMatch(member.Phone, @"^[0-9]+$"))
-                return (false, "Số điện thoại chỉ được chứa chữ số");
-        }
-
-        // Validate email nếu có
-        if (!string.IsNullOrWhiteSpace(member.Email))
-        {
-            if (!IsValidEmail(member.Email))
-                return (false, "Email không đúng định dạng");
-        }
-
-        return (true, string.Empty);
-    }
-
-    /// <summary>
-    /// Kiểm tra email hợp lệ
-    /// </summary>
-    private static bool IsValidEmail(string email)
-    {
-        try
-        {
-            var addr = new System.Net.Mail.MailAddress(email);
-            return addr.Address == email;
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
-    /// <summary>
-    /// Lấy icon emoji dựa trên trạng thái thẻ
-    /// </summary>
-    public static string GetStatusIcon(string membershipStatus, int daysRemaining)
-    {
-        if (membershipStatus == "Hết hạn" || daysRemaining < 0)
-            return "🔴";
-
-        if (daysRemaining <= 3)
-            return "🔴";
-
-        if (daysRemaining <= 7)
-            return "🟡";
-
-        if (daysRemaining <= 30)
-            return "🟢";
-
-        return "💚";
-    }
-
-    /// <summary>
-    /// Tính toán ngày kết thúc dựa trên gói tập
-    /// </summary>
-    public static DateTime CalculateEndDate(DateTime startDate, int durationDays)
-    {
-        return startDate.AddDays(durationDays);
-    }
-
-    /// <summary>
-    /// Tính giá gia hạn dựa trên số ngày
-    /// </summary>
-    public static decimal CalculateExtensionPrice(decimal originalPrice, int originalDays, int extensionDays)
-    {
-        if (originalDays <= 0) return 0;
-
-        var dailyRate = originalPrice / originalDays;
-        return Math.Round(dailyRate * extensionDays, 0);
-    }
-
-    /// <summary>
-    /// Validate thông tin thẻ tập trước khi tạo
-    /// </summary>
-    public static (bool IsValid, string ErrorMessage) ValidateMembershipCard(GymApp.Models.MembershipCards membershipCard)
-    {
-        if (membershipCard == null)
-            return (false, "Thông tin thẻ tập không được để trống");
-
-        if (membershipCard.MemberId <= 0)
-            return (false, "Vui lòng chọn thành viên");
-
-        if (membershipCard.PackageId <= 0)
-            return (false, "Vui lòng chọn gói tập");
-
-        if (membershipCard.StartDate >= membershipCard.EndDate)
-            return (false, "Ngày kết thúc phải sau ngày bắt đầu");
-
-        if (membershipCard.Price <= 0)
-            return (false, "Giá thẻ tập phải lớn hơn 0");
-
-        if (membershipCard.StartDate.Date < DateTime.Now.Date.AddDays(-30))
-            return (false, "Ngày bắt đầu không được quá xa trong quá khứ");
-
-        if (membershipCard.EndDate.Date > DateTime.Now.Date.AddYears(2))
-            return (false, "Ngày kết thúc không được quá 2 năm từ hiện tại");
-
-        return (true, string.Empty);
-    }
-
-    /// <summary>
-    /// Tạo ghi chú gia hạn
-    /// </summary>
-    public static string CreateExtensionNote(int extensionDays, decimal extensionPrice, string packageName = null)
-    {
-        var note = $"Gia hạn {extensionDays} ngày - {extensionPrice:N0} VNĐ ({DateTime.Now:dd/MM/yyyy})";
-
-        if (!string.IsNullOrEmpty(packageName))
-            note = $"{note} - {packageName}";
-
-        return note;
-    }
-
-    /// <summary>
-    /// Tính toán giảm giá cho gia hạn sớm
-    /// </summary>
-    public static decimal CalculateEarlyRenewalDiscount(int daysBeforeExpiry, decimal originalPrice)
-    {
-        // Giảm giá 5% nếu gia hạn trước 30 ngày
-        if (daysBeforeExpiry >= 30)
-            return originalPrice * 0.95m;
-
-        // Giảm giá 3% nếu gia hạn trước 15 ngày
-        if (daysBeforeExpiry >= 15)
-            return originalPrice * 0.97m;
-
-        return originalPrice;
-    }
-
-    /// <summary>
-    /// Tạo mã thẻ tập tự động
-    /// </summary>
-    public static string GenerateMembershipCode(int memberId, int packageId)
-    {
-        var date = DateTime.Now.ToString("yyMMdd");
-        return $"GYM{date}M{memberId:D4}P{packageId:D2}";
     }
 }

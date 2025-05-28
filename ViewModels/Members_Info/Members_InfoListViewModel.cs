@@ -61,9 +61,19 @@ namespace GymApp.ViewModels.Members_Info
         public Members_InfoListViewModel()
         {
             _dbContext = new DbContext();
+
+            // ✅ IMPORTANT: Khởi tạo collections trước khi gán
             MembersInfo = new ObservableCollection<Models.Members_Info>();
             _allMembersInfo = new ObservableCollection<Models.Members_Info>();
-            FilterStatus = "Tất cả";
+            FilterOptions = new ObservableCollection<string>
+            {
+                "Tất cả",
+                "Còn hạn",
+                "Hết hạn",
+                "Sắp hết hạn"
+            };
+
+            FilterStatus = "Tất cả"; // ✅ Set default value
 
             LoadDataCommand = new RelayCommand(LoadData);
             SearchCommand = new RelayCommand(SearchMembers);
@@ -71,7 +81,20 @@ namespace GymApp.ViewModels.Members_Info
             ExtendMembershipCommand = new RelayCommand(ExtendMembership, () => SelectedMemberInfo != null);
             CheckInCommand = new RelayCommand(CheckInMember, () => SelectedMemberInfo != null);
 
-            LoadData();
+            // ✅ Load data with try-catch
+            try
+            {
+                LoadData();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error loading data: {ex.Message}");
+                // Đảm bảo collections không null ngay cả khi lỗi
+                if (MembersInfo == null)
+                    MembersInfo = new ObservableCollection<Models.Members_Info>();
+                if (_allMembersInfo == null)
+                    _allMembersInfo = new ObservableCollection<Models.Members_Info>();
+            }
         }
 
         private void LoadData()

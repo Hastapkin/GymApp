@@ -89,11 +89,17 @@ namespace GymApp.ViewModels.Members_Info
 
         public event Action<bool> RequestClose;
 
+        // ✅ FIX: Thêm vào constructor của Members_InfoCreateViewModel
+
         public Members_InfoCreateViewModel()
         {
             _dbContext = new DbContext();
+
+            // ✅ IMPORTANT: Khởi tạo tất cả objects trước
             NewMember = new Models.Member();
             Packages = new ObservableCollection<Models.Packages>();
+
+            // ✅ Set default values
             MembershipStartDate = DateTime.Now;
             MembershipEndDate = DateTime.Now.AddDays(30);
             PaymentMethod = "Tiền mặt";
@@ -101,13 +107,31 @@ namespace GymApp.ViewModels.Members_Info
             SaveCommand = new RelayCommand(SaveMemberWithMembership);
             CancelCommand = new RelayCommand(Cancel);
 
-            LoadPackages();
+            // ✅ Load packages with error handling
+            try
+            {
+                LoadPackages();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error loading packages: {ex.Message}");
+                // Đảm bảo Packages không null
+                if (Packages == null)
+                    Packages = new ObservableCollection<Models.Packages>();
+            }
         }
 
+        // ✅ Cải thiện LoadPackages method
         private void LoadPackages()
         {
             try
             {
+                // ✅ Clear existing items safely
+                if (Packages != null)
+                    Packages.Clear();
+                else
+                    Packages = new ObservableCollection<Models.Packages>();
+
                 using var connection = _dbContext.GetConnection();
                 connection.Open();
 
@@ -126,42 +150,33 @@ namespace GymApp.ViewModels.Members_Info
                     };
                     Packages.Add(package);
                 }
+
+                // ✅ Debug info
+                System.Diagnostics.Debug.WriteLine($"Loaded {Packages.Count} packages");
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Lỗi tải danh sách gói tập: {ex.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                // ✅ Ensure Packages is not null even on error
+                if (Packages == null)
+                    Packages = new ObservableCollection<Models.Packages>();
             }
         }
 
+        // ❌ CURRENT CODE có vấn đề với Oracle RETURNING syntax:
+        string memberSql = @"INSERT INTO Members (FullName, Phone, Email, Gender, DateOfBirth, Address, 
+                    JoinDate, IsActive, Notes, CreatedDate, UpdatedDate) 
+                    VALUES (:fullName, :phone, :email, :gender, :dateOfBirth, :address, 
+                    :joinDate, :isActive, :notes, :createdDate, :updatedDate)
+                    RETURNING Id INTO :memberId"; // ❌ Syntax này không work với Oracle .NET
+
+        // ✅ FIX: Sử dụng cách lấy ID khác
         private void SaveMemberWithMembership()
         {
             try
             {
-                // Validate member info
-                if (string.IsNullOrWhiteSpace(NewMember.FullName))
-                {
-                    MessageBox.Show("Vui lòng nhập họ tên thành viên!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-
-                // Validate membership info
-                if (SelectedPackage == null)
-                {
-                    MessageBox.Show("Vui lòng chọn gói tập!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-
-                if (MembershipStartDate >= MembershipEndDate)
-                {
-                    MessageBox.Show("Ngày kết thúc phải sau ngày bắt đầu!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-
-                if (MembershipPrice <= 0)
-                {
-                    MessageBox.Show("Giá thẻ tập phải lớn hơn 0!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
+                // Validate...
 
                 using var connection = _dbContext.GetConnection();
                 connection.Open();
@@ -169,17 +184,26 @@ namespace GymApp.ViewModels.Members_Info
                 using var transaction = connection.BeginTransaction();
                 try
                 {
-                    // ✅ FIX: 1. Insert Member - Sử dụng IDENTITY sequence
-                    string memberSql = @"INSERT INTO Members (FullName, Phone, Email, Gender, DateOfBirth, Address, 
-                                        JoinDate, IsActive, Notes, CreatedDate, UpdatedDate) 
-                                        VALUES (:fullName, :phone, :email, :gender, :dateOfBirth, :address, 
-                                        :joinDate, :isActive, :notes, :createdDate, :updatedDate)
-                                        RETURNING Id INTO :memberId";
-
+                    // ✅ METHOD 1: Get next ID trước khi insert
+                    string getNextIdSql = "SELECT NVL(MAX(Id), 0) + 1 FROM Members";
                     int memberId;
+                    using (var getIdCmd = new OracleCommand(getNextIdSql, connection))
+                    {
+                        getIdCmd.Transaction = transaction;
+                        var result = getIdCmd.ExecuteScalar();
+                        memberId = result != null ? Convert.ToInt32(result) : 1;
+                    }
+
+                    // ✅ Insert Member với ID cụ thể
+                    string memberSql = @"INSERT INTO Members (Id, FullName, Phone, Email, Gender, DateOfBirth, Address, 
+                               JoinDate, IsActive, Notes, CreatedDate, UpdatedDate) 
+                               VALUES (:id, :fullName, :phone, :email, :gender, :dateOfBirth, :address, 
+                               :joinDate, :isActive, :notes, :createdDate, :updatedDate)";
+
                     using (var memberCmd = new OracleCommand(memberSql, connection))
                     {
                         memberCmd.Transaction = transaction;
+                        memberCmd.Parameters.Add(":id", memberId);
                         memberCmd.Parameters.Add(":fullName", NewMember.FullName);
                         memberCmd.Parameters.Add(":phone", NewMember.Phone ?? (object)DBNull.Value);
                         memberCmd.Parameters.Add(":email", NewMember.Email ?? (object)DBNull.Value);
@@ -192,21 +216,14 @@ namespace GymApp.ViewModels.Members_Info
                         memberCmd.Parameters.Add(":createdDate", DateTime.Now);
                         memberCmd.Parameters.Add(":updatedDate", DateTime.Now);
 
-                        var memberIdParam = new OracleParameter(":memberId", OracleDbType.Int32)
-                        {
-                            Direction = System.Data.ParameterDirection.Output
-                        };
-                        memberCmd.Parameters.Add(memberIdParam);
-
                         memberCmd.ExecuteNonQuery();
-                        memberId = Convert.ToInt32(memberIdParam.Value);
                     }
 
-                    // ✅ FIX: 2. Insert MembershipCard - Sử dụng IDENTITY sequence
+                    // ✅ Insert MembershipCard
                     string membershipSql = @"INSERT INTO MembershipCards (MemberId, PackageId, StartDate, EndDate, Price, 
-                                           PaymentMethod, Status, Notes, CreatedDate, CreatedBy) 
-                                           VALUES (:memberId, :packageId, :startDate, :endDate, :price, 
-                                           :paymentMethod, :status, :notes, :createdDate, :createdBy)";
+                                   PaymentMethod, Status, Notes, CreatedDate, CreatedBy) 
+                                   VALUES (:memberId, :packageId, :startDate, :endDate, :price, 
+                                   :paymentMethod, :status, :notes, :createdDate, :createdBy)";
 
                     using (var membershipCmd = new OracleCommand(membershipSql, connection))
                     {

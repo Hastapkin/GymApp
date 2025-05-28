@@ -82,6 +82,12 @@ public partial class MainWindow : Window
                 MainFrame.Navigate(new MemberListView());
                 StatusText.Text = "Đã tạo thành viên và thẻ tập mới";
             }
+            else
+            {
+                // Nếu không có page nào đang hiển thị, chuyển về Members_Info
+                MainFrame.Navigate(new Members_InfoListView());
+                StatusText.Text = "Đã tạo thành viên và thẻ tập mới";
+            }
         }
     }
 

@@ -32,6 +32,7 @@ namespace GymApp.ViewModels.Members_Info
             {
                 _newEndDate = value;
                 OnPropertyChanged(nameof(NewEndDate));
+                OnPropertyChanged(nameof(ExtensionDays)); // ✅ Trigger ExtensionDays update
                 CalculateExtensionPrice();
             }
         }
@@ -64,6 +65,7 @@ namespace GymApp.ViewModels.Members_Info
             set { _extensionPrice = value; OnPropertyChanged(nameof(ExtensionPrice)); }
         }
 
+        // ✅ MISSING PROPERTY: ExtensionDays được sử dụng trong XAML
         public int ExtensionDays => Math.Max(0, (NewEndDate - MemberInfo.EndDate).Days);
 
         public ICommand ExtendCommand { get; }
@@ -164,8 +166,7 @@ namespace GymApp.ViewModels.Members_Info
                     $"Từ: {MemberInfo.EndDate:dd/MM/yyyy}\n" +
                     $"Đến: {NewEndDate:dd/MM/yyyy}\n" +
                     $"Thêm: {ExtensionDays} ngày\n" +
-                    $"Giá gia hạn: {ExtensionPrice:N0} VNĐ\n" +
-                    $"Tổng giá mới: {(MemberInfo.Price + ExtensionPrice):N0} VNĐ",
+                    $"Giá gia hạn: {ExtensionPrice:N0} VNĐ",
                     "Xác nhận gia hạn", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
                 if (result == MessageBoxResult.Yes)
@@ -173,11 +174,10 @@ namespace GymApp.ViewModels.Members_Info
                     using var connection = _dbContext.GetConnection();
                     connection.Open();
 
-                    // ✅ IMPROVED: Sử dụng transaction để đảm bảo tính toàn vẹn dữ liệu
                     using var transaction = connection.BeginTransaction();
                     try
                     {
-                        // 1. Tìm thẻ tập hiện tại của thành viên
+                        // ✅ Tìm thẻ tập theo MemberId và EndDate cụ thể
                         string getMembershipSql = @"SELECT Id, Price FROM MembershipCards 
                                                    WHERE MemberId = :memberId 
                                                    AND EndDate = :currentEndDate 
@@ -203,11 +203,11 @@ namespace GymApp.ViewModels.Members_Info
 
                         if (membershipCardId > 0)
                         {
-                            // 2. Cập nhật thẻ tập hiện tại
+                            // ✅ Update thẻ tập hiện tại
                             string updateSql = @"UPDATE MembershipCards 
                                                SET EndDate = :newEndDate, 
                                                    Price = :newPrice,
-                                                   Notes = NVL(Notes, '') || ' | Gia hạn ' || :extensionDays || ' ngày (' || TO_CHAR(SYSDATE, 'DD/MM/YYYY') || ') - Phí: ' || :extensionPrice || ' VNĐ'
+                                                   Notes = COALESCE(Notes, '') || ' | Gia hạn ' || :extensionDays || ' ngày (' || TO_CHAR(SYSDATE, 'DD/MM/YYYY') || ') - Phí: ' || :extensionPrice || ' VNĐ'
                                                WHERE Id = :membershipId";
 
                             using var updateCmd = new OracleCommand(updateSql, connection);
@@ -221,7 +221,7 @@ namespace GymApp.ViewModels.Members_Info
                             int rowsAffected = updateCmd.ExecuteNonQuery();
                             if (rowsAffected > 0)
                             {
-                                // 3. Ghi log gia hạn (tùy chọn)
+                                // ✅ Log gia hạn
                                 string logSql = @"INSERT INTO CheckInLog (MemberId, CheckInTime, Notes) 
                                                 VALUES (:memberId, SYSDATE, :notes)";
 

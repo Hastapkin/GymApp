@@ -12,8 +12,6 @@
         <converters:DaysRemainingToColorConverter x:Key="DaysRemainingToColorConverter"/>
         <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <converters:DaysRemainingMultiConverter x:Key="DaysRemainingMultiConverter"/>
-
-        <!-- ✅ THÊM CÁC CONVERTER BỊ THIẾU -->
         <converters:LessThanConverter x:Key="LessThanConverter"/>
         <converters:LessThanEqualConverter x:Key="LessThanEqualConverter"/>
         <converters:GreaterThanConverter x:Key="GreaterThanConverter"/>
@@ -128,7 +126,7 @@
             </Style.Triggers>
         </Style>
 
-        <!-- Success Button Style -->
+        <!-- Button Styles -->
         <Style x:Key="SuccessButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
             <Setter Property="Background" Value="#27AE60"/>
             <Setter Property="Foreground" Value="White"/>
