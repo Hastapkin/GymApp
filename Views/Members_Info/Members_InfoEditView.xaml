@@ -87,20 +87,11 @@
 
                 <!-- Extension Options -->
                 <Label Content="Chọn gói gia hạn:" FontWeight="Bold" FontSize="14"/>
+                <!-- ✅ FIX: Xóa template phức tạp, chỉ dùng DisplayMemberPath -->
                 <ComboBox ItemsSource="{Binding Packages}" 
                           SelectedItem="{Binding SelectedPackage}"
                           DisplayMemberPath="PackageName"
-                          Margin="0,0,0,15" Padding="8" Height="35">
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding PackageName}" FontWeight="Bold" Width="150"/>
-                                <TextBlock Text="{Binding DurationDays}" Foreground="Blue" Margin="10,0"/>
-                                <TextBlock Text="ngày -" Foreground="Blue" Margin="2,0"/>
-                                <TextBlock Text="{Binding Price, StringFormat=N0}" Foreground="Green" Margin="5,0"/>
-                                <TextBlock Text="VNĐ" Foreground="Green" Margin="2,0"/>
-                            </StackPanel>
-                        </DataTemplate>
-                </ComboBox>
+                          Margin="0,0,0,15" Padding="8" Height="35"/>
 
                 <!-- Manual Date Selection -->
                 <Label Content="Hoặc chọn ngày kết thúc mới:" FontWeight="Bold"/>

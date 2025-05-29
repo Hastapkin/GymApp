@@ -176,7 +176,30 @@ namespace GymApp.ViewModels.Members_Info
         {
             try
             {
-                // Validate...
+                // ✅ FIX: Validate trước khi thực hiện
+                if (string.IsNullOrWhiteSpace(NewMember?.FullName))
+                {
+                    MessageBox.Show("Vui lòng nhập họ tên!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                if (SelectedPackage == null)
+                {
+                    MessageBox.Show("Vui lòng chọn gói tập!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                if (MembershipStartDate >= MembershipEndDate)
+                {
+                    MessageBox.Show("Ngày kết thúc phải sau ngày bắt đầu!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                if (MembershipPrice <= 0)
+                {
+                    MessageBox.Show("Giá phải lớn hơn 0!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
 
                 using var connection = _dbContext.GetConnection();
                 connection.Open();
@@ -184,7 +207,7 @@ namespace GymApp.ViewModels.Members_Info
                 using var transaction = connection.BeginTransaction();
                 try
                 {
-                    // ✅ METHOD 1: Get next ID trước khi insert
+                    // ✅ Get next ID trước khi insert
                     string getNextIdSql = "SELECT NVL(MAX(Id), 0) + 1 FROM Members";
                     int memberId;
                     using (var getIdCmd = new OracleCommand(getNextIdSql, connection))
@@ -196,9 +219,9 @@ namespace GymApp.ViewModels.Members_Info
 
                     // ✅ Insert Member với ID cụ thể
                     string memberSql = @"INSERT INTO Members (Id, FullName, Phone, Email, Gender, DateOfBirth, Address, 
-                               JoinDate, IsActive, Notes, CreatedDate, UpdatedDate) 
-                               VALUES (:id, :fullName, :phone, :email, :gender, :dateOfBirth, :address, 
-                               :joinDate, :isActive, :notes, :createdDate, :updatedDate)";
+                       JoinDate, IsActive, Notes, CreatedDate, UpdatedDate) 
+                       VALUES (:id, :fullName, :phone, :email, :gender, :dateOfBirth, :address, 
+                       :joinDate, :isActive, :notes, :createdDate, :updatedDate)";
 
                     using (var memberCmd = new OracleCommand(memberSql, connection))
                     {
@@ -221,9 +244,9 @@ namespace GymApp.ViewModels.Members_Info
 
                     // ✅ Insert MembershipCard
                     string membershipSql = @"INSERT INTO MembershipCards (MemberId, PackageId, StartDate, EndDate, Price, 
-                                   PaymentMethod, Status, Notes, CreatedDate, CreatedBy) 
-                                   VALUES (:memberId, :packageId, :startDate, :endDate, :price, 
-                                   :paymentMethod, :status, :notes, :createdDate, :createdBy)";
+                           PaymentMethod, Status, Notes, CreatedDate, CreatedBy) 
+                           VALUES (:memberId, :packageId, :startDate, :endDate, :price, 
+                           :paymentMethod, :status, :notes, :createdDate, :createdBy)";
 
                     using (var membershipCmd = new OracleCommand(membershipSql, connection))
                     {
@@ -233,7 +256,7 @@ namespace GymApp.ViewModels.Members_Info
                         membershipCmd.Parameters.Add(":startDate", MembershipStartDate);
                         membershipCmd.Parameters.Add(":endDate", MembershipEndDate);
                         membershipCmd.Parameters.Add(":price", MembershipPrice);
-                        membershipCmd.Parameters.Add(":paymentMethod", PaymentMethod);
+                        membershipCmd.Parameters.Add(":paymentMethod", PaymentMethod ?? "Tiền mặt");
                         membershipCmd.Parameters.Add(":status", "Hoạt động");
                         membershipCmd.Parameters.Add(":notes", $"Tạo thành viên và thẻ tập cùng lúc - {SelectedPackage.PackageName}");
                         membershipCmd.Parameters.Add(":createdDate", DateTime.Now);
