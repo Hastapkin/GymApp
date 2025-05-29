@@ -26,7 +26,7 @@ namespace GymApp.Views.Members_Info
             System.Diagnostics.Debug.WriteLine("Members_InfoListView loaded successfully");
         }
 
-        // ✅ Event handlers được khai báo trong XAML
+        // Event handlers được khai báo trong XAML
         private void ViewMemberInfo_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;

@@ -8,7 +8,7 @@ using System.Windows.Media;
 
 namespace GymApp.Helpers;
 
-// ✅ CÁC CONVERTER CƠ BẢN
+// CONVERTER
 public class BoolToStringConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -72,7 +72,7 @@ public class NumberToStringConverter : IValueConverter
     }
 }
 
-// ✅ CÁC CONVERTER SO SÁNH SỐ
+// CONVERTER SO SÁNH SỐ
 public class LessThanConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -124,7 +124,7 @@ public class GreaterThanConverter : IValueConverter
     }
 }
 
-// ✅ CÁC CONVERTER CHO COLLECTIONS
+// CONVERTER CHO COLLECTIONS
 public class CountByStatusConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -175,7 +175,7 @@ public class CountExpiringSoonConverter : IValueConverter
     }
 }
 
-// ✅ CÁC CONVERTER CHO UI
+// CONVERTER CHO UI
 public class NullToVisibilityConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -268,7 +268,7 @@ public class DaysRemainingMultiConverter : IMultiValueConverter
     }
 }
 
-// ✅ THÊM CÁC CONVERTER BỊ THIẾU KHÁC
+// THÊM CÁC CONVERTER BỊ THIẾU
 public class BoolToStringConverter2 : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -286,7 +286,7 @@ public class BoolToStringConverter2 : IValueConverter
     }
 }
 
-// ✅ MEMBERSHIP HELPER METHODS (chuyển từ class riêng vào đây)
+// MEMBERSHIP HELPER METHODS (chuyển từ class riêng vào)
 public static class MembershipHelper
 {
     /// <summary>

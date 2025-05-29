@@ -61,7 +61,7 @@ namespace GymApp.ViewModels.Member
                 using var connection = _dbContext.GetConnection();
                 connection.Open();
 
-                // ✅ FIX: ORDER BY Id ASC để member mới (ID lớn hơn) xuất hiện ở cuối
+                // FIX: ORDER BY Id ASC để member mới (ID lớn hơn) xuất hiện ở cuối
                 string sql = @"SELECT Id, FullName, Phone, Email, Gender, DateOfBirth, Address, 
                               JoinDate, IsActive, Notes, CreatedDate, UpdatedDate 
                               FROM Members 
@@ -117,7 +117,7 @@ namespace GymApp.ViewModels.Member
                 using var connection = _dbContext.GetConnection();
                 connection.Open();
 
-                // ✅ FIX: ORDER BY Id ASC trong search cũng vậy
+                // FIX: ORDER BY Id ASC trong search cũng vậy
                 string sql = @"SELECT Id, FullName, Phone, Email, Gender, DateOfBirth, Address, 
                               JoinDate, IsActive, Notes, CreatedDate, UpdatedDate 
                               FROM Members 

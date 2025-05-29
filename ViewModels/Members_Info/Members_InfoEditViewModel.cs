@@ -65,7 +65,7 @@ namespace GymApp.ViewModels.Members_Info
             set { _extensionPrice = value; OnPropertyChanged(nameof(ExtensionPrice)); }
         }
 
-        // ✅ MISSING PROPERTY: ExtensionDays được sử dụng trong XAML
+        // MISSING PROPERTY: ExtensionDays được sử dụng trong XAML
         public int ExtensionDays => Math.Max(0, (NewEndDate - MemberInfo.EndDate).Days);
 
         public ICommand ExtendCommand { get; }
@@ -120,7 +120,7 @@ namespace GymApp.ViewModels.Members_Info
         {
             if (SelectedPackage == null)
             {
-                // ✅ IMPROVED: Tính giá dựa trên số ngày gia hạn
+                // IMPROVED: Tính giá dựa trên số ngày gia hạn
                 var daysToExtend = ExtensionDays;
                 if (daysToExtend > 0 && MemberInfo.Price > 0)
                 {
@@ -177,7 +177,7 @@ namespace GymApp.ViewModels.Members_Info
                     using var transaction = connection.BeginTransaction();
                     try
                     {
-                        // ✅ FIX: Tìm thẻ tập theo MemberId và EndDate
+                        // FIX: Tìm thẻ tập theo MemberId và EndDate
                         string getMembershipSql = @"SELECT Id, Price FROM MembershipCards 
                                            WHERE MemberId = :memberId 
                                            AND EndDate = :currentEndDate 
@@ -191,7 +191,7 @@ namespace GymApp.ViewModels.Members_Info
                         {
                             getCmd.Transaction = transaction;
 
-                            // ✅ FIX: Sử dụng OracleDbType để tránh character set mismatch
+                            // FIX: Sử dụng OracleDbType để tránh character set mismatch
                             var memberIdParam = new Oracle.ManagedDataAccess.Client.OracleParameter(":memberId", Oracle.ManagedDataAccess.Client.OracleDbType.Int32);
                             memberIdParam.Value = MemberInfo.Id;
                             getCmd.Parameters.Add(memberIdParam);
@@ -214,7 +214,7 @@ namespace GymApp.ViewModels.Members_Info
 
                         if (membershipCardId > 0)
                         {
-                            // ✅ FIX: Update thẻ tập với explicit parameter types
+                            // FIX: Update thẻ tập với explicit parameter types
                             string updateSql = @"UPDATE MembershipCards 
                                        SET EndDate = :newEndDate, 
                                            Price = :newPrice,
@@ -224,7 +224,7 @@ namespace GymApp.ViewModels.Members_Info
                             using var updateCmd = new OracleCommand(updateSql, connection);
                             updateCmd.Transaction = transaction;
 
-                            // ✅ FIX: Explicit parameter binding
+                            // FIX: Explicit parameter binding
                             var newEndDateParam = new Oracle.ManagedDataAccess.Client.OracleParameter(":newEndDate", Oracle.ManagedDataAccess.Client.OracleDbType.Date);
                             newEndDateParam.Value = NewEndDate;
                             updateCmd.Parameters.Add(newEndDateParam);
@@ -244,7 +244,7 @@ namespace GymApp.ViewModels.Members_Info
                             int rowsAffected = updateCmd.ExecuteNonQuery();
                             if (rowsAffected > 0)
                             {
-                                // ✅ FIX: Log gia hạn với explicit parameters
+                                // FIX: Log gia hạn với explicit parameters
                                 string logSql = @"INSERT INTO CheckInLog (MemberId, CheckInTime, Notes) 
                                         VALUES (:memberId, SYSDATE, :notes)";
 

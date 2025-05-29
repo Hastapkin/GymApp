@@ -61,7 +61,7 @@ namespace GymApp.ViewModels.MembershipCards
                 using var connection = _dbContext.GetConnection();
                 connection.Open();
 
-                // ✅ FIX: ORDER BY mc.Id ASC để thẻ tập mới ở cuối
+                // FIX: ORDER BY mc.Id ASC để thẻ tập mới ở cuối
                 string sql = @"SELECT mc.Id, mc.MemberId, mc.PackageId, mc.StartDate, mc.EndDate, 
                               mc.Price, mc.PaymentMethod, mc.Status, mc.Notes, mc.CreatedDate, mc.CreatedBy,
                               m.FullName as MemberName, p.PackageName
@@ -121,7 +121,7 @@ namespace GymApp.ViewModels.MembershipCards
                 using var connection = _dbContext.GetConnection();
                 connection.Open();
 
-                // ✅ FIX: ORDER BY mc.Id ASC trong search
+                // FIX: ORDER BY mc.Id ASC trong search
                 string sql = @"SELECT mc.Id, mc.MemberId, mc.PackageId, mc.StartDate, mc.EndDate, 
                               mc.Price, mc.PaymentMethod, mc.Status, mc.Notes, mc.CreatedDate, mc.CreatedBy,
                               m.FullName as MemberName, p.PackageName

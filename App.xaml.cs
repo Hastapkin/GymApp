@@ -26,11 +26,11 @@ public partial class App : Application
             // Still allow app to start for development
         }
 
-        // ✅ IMPROVED: Start with Login Window instead of MainWindow
+        // IMPROVED: Start with Login Window instead of MainWindow
         var loginWindow = new LoginWindow();
         loginWindow.Show();
 
-        // ✅ FIX: Set proper shutdown mode
+        // FIX: Set proper shutdown mode
         ShutdownMode = ShutdownMode.OnLastWindowClose;
     }
 }

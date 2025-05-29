@@ -87,7 +87,7 @@
 
                 <!-- Extension Options -->
                 <Label Content="Chọn gói gia hạn:" FontWeight="Bold" FontSize="14"/>
-                <!-- ✅ FIX: Xóa template phức tạp, chỉ dùng DisplayMemberPath -->
+                <!-- FIX: Xóa template phức tạp, chỉ dùng DisplayMemberPath -->
                 <ComboBox ItemsSource="{Binding Packages}" 
                           SelectedItem="{Binding SelectedPackage}"
                           DisplayMemberPath="PackageName"

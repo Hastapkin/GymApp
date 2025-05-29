@@ -65,7 +65,7 @@ public partial class MainWindow : Window
         StatusText.Text = "Đã tải thông tin thành viên";
     }
 
-    // ✅ NEW: Tạo thành viên và thẻ tập cùng lúc
+    // Tạo thành viên và thẻ tập cùng lúc
     private void MemberInfoCreate_Click(object sender, RoutedEventArgs e)
     {
         var createWindow = new Members_InfoCreateView();
@@ -151,7 +151,7 @@ public partial class MainWindow : Window
         }
     }
 
-    // ✅ NEW: Logout functionality
+    // Logout functionality
     private void Logout_Click(object sender, RoutedEventArgs e)
     {
         var result = MessageBox.Show("Bạn có chắc chắn muốn đăng xuất?",
@@ -172,7 +172,7 @@ public partial class MainWindow : Window
         }
     }
 
-    // ✅ NEW: Exit functionality
+    // Exit functionality
     private void Exit_Click(object sender, RoutedEventArgs e)
     {
         var result = MessageBox.Show("Bạn có chắc chắn muốn thoát ứng dụng?",
@@ -193,7 +193,7 @@ public partial class MainWindow : Window
         base.OnClosed(e);
     }
 
-    // ✅ KEYBOARD SHORTCUTS
+    // KEYBOARD SHORTCUTS
     protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e)
     {
         // Handle global keyboard shortcuts
@@ -251,7 +251,7 @@ public partial class MainWindow : Window
     /// </summary>
     private void ShowHelpDialog()
     {
-        var helpMessage = "🎯 PHÍM TẮT TRONG ỨNG DỤNG:\n\n" +
+        var helpMessage = "PHÍM TẮT TRONG ỨNG DỤNG:\n\n" +
             "F1 - Hiển thị trợ giúp\n" +
             "F5 - Làm mới trang hiện tại\n" +
             "ESC - Về trang chủ\n\n" +
@@ -261,7 +261,7 @@ public partial class MainWindow : Window
             "Ctrl + T - Danh sách thẻ tập\n" +
             "Ctrl + S - Danh sách nhân viên\n" +
             "Ctrl + Q - Thoát ứng dụng\n\n" +
-            "📱 LIÊN HỆ HỖ TRỢ:\n" +
+            "LIÊN HỆ HỖ TRỢ:\n" +
             "Email: support@gymapp.com\n" +
             "Hotline: 1800-GYM-APP";
 

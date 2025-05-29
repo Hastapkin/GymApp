@@ -62,7 +62,7 @@ namespace GymApp.ViewModels.Members_Info
         {
             _dbContext = new DbContext();
 
-            // ✅ IMPORTANT: Khởi tạo collections trước khi gán
+            // IMPORTANT: Khởi tạo collections trước khi gán
             MembersInfo = new ObservableCollection<Models.Members_Info>();
             _allMembersInfo = new ObservableCollection<Models.Members_Info>();
             FilterOptions = new ObservableCollection<string>
@@ -81,7 +81,7 @@ namespace GymApp.ViewModels.Members_Info
             ExtendMembershipCommand = new RelayCommand(ExtendMembership, () => SelectedMemberInfo != null);
             CheckInCommand = new RelayCommand(CheckInMember, () => SelectedMemberInfo != null);
 
-            // ✅ Load data with try-catch
+            // Load data with try-catch
             try
             {
                 LoadData();
@@ -186,7 +186,7 @@ namespace GymApp.ViewModels.Members_Info
         {
             if (SelectedMemberInfo == null) return;
 
-            // ✅ ENHANCED: Kiểm tra trạng thái thẻ tập chi tiết hơn
+            // ENHANCED: Kiểm tra trạng thái thẻ tập chi tiết hơn
             if (SelectedMemberInfo.MembershipStatus == "Hết hạn")
             {
                 var result = MessageBox.Show($"Thẻ tập của {SelectedMemberInfo.FullName} đã hết hạn!\n" +
@@ -201,7 +201,7 @@ namespace GymApp.ViewModels.Members_Info
                 return;
             }
 
-            // ✅ ENHANCED: Cảnh báo nếu thẻ sắp hết hạn
+            // ENHANCED: Cảnh báo nếu thẻ sắp hết hạn
             string warningMessage = "";
             if (SelectedMemberInfo.DaysRemaining <= 7 && SelectedMemberInfo.DaysRemaining > 0)
             {
@@ -221,7 +221,7 @@ namespace GymApp.ViewModels.Members_Info
                     using var connection = _dbContext.GetConnection();
                     connection.Open();
 
-                    // ✅ ENHANCED: Kiểm tra check-in trùng lặp trong ngày
+                    // ENHANCED: Kiểm tra check-in trùng lặp trong ngày
                     string checkDuplicateSql = @"SELECT COUNT(*) FROM CheckInLog 
                                                 WHERE MemberId = :memberId 
                                                 AND TRUNC(CheckInTime) = TRUNC(SYSDATE)
@@ -246,7 +246,7 @@ namespace GymApp.ViewModels.Members_Info
                         }
                     }
 
-                    // ✅ ENHANCED: Thực hiện check-in với thông tin chi tiết hơn
+                    // ENHANCED: Thực hiện check-in với thông tin chi tiết hơn
                     string sql = @"INSERT INTO CheckInLog (MemberId, CheckInTime, Notes) 
                                   VALUES (:memberId, SYSDATE, :notes)";
 
@@ -257,8 +257,8 @@ namespace GymApp.ViewModels.Members_Info
                     int rowsAffected = cmd.ExecuteNonQuery();
                     if (rowsAffected > 0)
                     {
-                        // ✅ ENHANCED: Thông báo thành công với thông tin chi tiết
-                        string successMessage = $"✅ Check-in thành công!\n\n" +
+                        // ENHANCED: Thông báo thành công với thông tin chi tiết
+                        string successMessage = $"Check-in thành công!\n\n" +
                                               $"Thành viên: {SelectedMemberInfo.FullName}\n" +
                                               $"Thời gian: {DateTime.Now:HH:mm dd/MM/yyyy}\n" +
                                               $"Gói tập: {SelectedMemberInfo.PackageName}\n" +
@@ -266,12 +266,12 @@ namespace GymApp.ViewModels.Members_Info
 
                         if (SelectedMemberInfo.DaysRemaining <= 7)
                         {
-                            successMessage += $"\n\n⚠️ Nhắc nhở: Thẻ tập sắp hết hạn!";
+                            successMessage += $"\n\n Nhắc nhở: Thẻ tập sắp hết hạn!";
                         }
 
                         MessageBox.Show(successMessage, "Check-in thành công", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                        // ✅ ENHANCED: Tự động refresh data để cập nhật thống kê
+                        // ENHANCED: Tự động refresh data để cập nhật thống kê
                         LoadData();
                     }
                 }

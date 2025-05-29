@@ -18,13 +18,13 @@ namespace GymApp.Views.Members_Info
             DataContext = _viewModel;
         }
 
-        // ✅ Event handler được khai báo trong XAML
+        // Event handler được khai báo trong XAML
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             FullNameTextBox?.Focus();
         }
 
-        // ✅ Event handler được khai báo trong XAML  
+        // Event handler được khai báo trong XAML  
         private void FullNameTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -33,14 +33,14 @@ namespace GymApp.Views.Members_Info
             }
         }
 
-        // ✅ Event handler được khai báo trong XAML
+        // Event handler được khai báo trong XAML
         private void PhoneTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
 
-        // ✅ Event handler được khai báo trong XAML
+        // Event handler được khai báo trong XAML
         private void EmailTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             var textBox = sender as TextBox;
@@ -55,7 +55,7 @@ namespace GymApp.Views.Members_Info
             }
         }
 
-        // ✅ Event handler được khai báo trong XAML
+        // Event handler được khai báo trong XAML
         private void PackageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_viewModel?.SelectedPackage != null)
@@ -64,7 +64,7 @@ namespace GymApp.Views.Members_Info
             }
         }
 
-        // ✅ Event handler được khai báo trong XAML
+        // Event handler được khai báo trong XAML
         private void StartDatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_viewModel?.SelectedPackage != null)
@@ -73,14 +73,14 @@ namespace GymApp.Views.Members_Info
             }
         }
 
-        // ✅ Event handler được khai báo trong XAML
+        // Event handler được khai báo trong XAML
         private void PriceTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9.]+");
             e.Handled = regex.IsMatch(e.Text);
         }
 
-        // ✅ Event handler được khai báo trong XAML
+        // Event handler được khai báo trong XAML
         private void SaveButton_MouseEnter(object sender, MouseEventArgs e)
         {
             var button = sender as Button;

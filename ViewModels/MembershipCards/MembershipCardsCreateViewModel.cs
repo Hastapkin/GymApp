@@ -180,7 +180,7 @@ namespace GymApp.ViewModels.MembershipCards
                 using var connection = _dbContext.GetConnection();
                 connection.Open();
 
-                // ✅ FIX: Sử dụng IDENTITY sequence tự động, không cần get nextId thủ công
+                // FIX: Sử dụng IDENTITY sequence tự động, không cần get nextId thủ công
                 string sql = @"INSERT INTO MembershipCards (MemberId, PackageId, StartDate, EndDate, Price, 
                               PaymentMethod, Status, Notes, CreatedDate, CreatedBy) 
                               VALUES (:memberId, :packageId, :startDate, :endDate, :price, 

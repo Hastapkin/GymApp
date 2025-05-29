@@ -61,7 +61,7 @@ namespace GymApp.ViewModels.Packages
                 using var connection = _dbContext.GetConnection();
                 connection.Open();
 
-                // ✅ FIX: ORDER BY Id ASC để package mới (ID lớn hơn) xuất hiện ở cuối
+                // FIX: ORDER BY Id ASC để package mới (ID lớn hơn) xuất hiện ở cuối
                 string sql = @"SELECT Id, PackageName, Description, DurationDays, Price, IsActive, CreatedDate 
                               FROM Packages 
                               ORDER BY Id ASC"; // ← QUAN TRỌNG: Id tăng dần = package mới ở cuối
@@ -112,7 +112,7 @@ namespace GymApp.ViewModels.Packages
                 using var connection = _dbContext.GetConnection();
                 connection.Open();
 
-                // ✅ FIX: ORDER BY Id ASC trong search cũng vậy
+                // FIX: ORDER BY Id ASC trong search cũng vậy
                 string sql = @"SELECT Id, PackageName, Description, DurationDays, Price, IsActive, CreatedDate 
                               FROM Packages 
                               WHERE UPPER(PackageName) LIKE UPPER(:searchText) 

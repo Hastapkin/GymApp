@@ -13,12 +13,12 @@ namespace GymApp.Views
             InitializeComponent();
             _viewModel = new LoginViewModel();
 
-            // ✅ FIX: Subscribe to LoginSuccessful event properly
+            // FIX: Subscribe to LoginSuccessful event properly
             _viewModel.LoginSuccessful += OnLoginSuccessful;
 
             DataContext = _viewModel;
 
-            // ✅ FIX: Set default credentials for convenience
+            // FIX: Set default credentials for convenience
             _viewModel.Username = "admin";
             _viewModel.Password = "admin";
             PasswordBox.Password = "admin";
@@ -31,7 +31,7 @@ namespace GymApp.Views
         {
             if (_viewModel != null)
             {
-                // ✅ FIX: Update viewmodel password when user types
+                // FIX: Update viewmodel password when user types
                 _viewModel.Password = ((PasswordBox)sender).Password;
             }
         }
@@ -53,7 +53,7 @@ namespace GymApp.Views
             }
         }
 
-        // ✅ FIX: Properly dispose of event subscription
+        // FIX: Properly dispose of event subscription
         protected override void OnClosed(System.EventArgs e)
         {
             if (_viewModel != null)

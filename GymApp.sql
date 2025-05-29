@@ -199,7 +199,7 @@ SELECT
     TRUNC(mc.EndDate - SYSDATE) as DaysRemaining
 FROM Members m
 LEFT JOIN (
-    -- ✅ Lấy thẻ tập mới nhất của mỗi member
+    -- Lấy thẻ tập mới nhất của mỗi member
     SELECT mc1.*
     FROM MembershipCards mc1
     INNER JOIN (

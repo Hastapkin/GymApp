@@ -89,17 +89,17 @@ namespace GymApp.ViewModels.Members_Info
 
         public event Action<bool> RequestClose;
 
-        // ✅ FIX: Thêm vào constructor của Members_InfoCreateViewModel
+        // FIX: Thêm vào constructor của Members_InfoCreateViewModel
 
         public Members_InfoCreateViewModel()
         {
             _dbContext = new DbContext();
 
-            // ✅ IMPORTANT: Khởi tạo tất cả objects trước
+            // IMPORTANT: Khởi tạo tất cả objects trước
             NewMember = new Models.Member();
             Packages = new ObservableCollection<Models.Packages>();
 
-            // ✅ Set default values
+            // Set default values
             MembershipStartDate = DateTime.Now;
             MembershipEndDate = DateTime.Now.AddDays(30);
             PaymentMethod = "Tiền mặt";
@@ -107,7 +107,7 @@ namespace GymApp.ViewModels.Members_Info
             SaveCommand = new RelayCommand(SaveMemberWithMembership);
             CancelCommand = new RelayCommand(Cancel);
 
-            // ✅ Load packages with error handling
+            // Load packages with error handling
             try
             {
                 LoadPackages();
@@ -121,12 +121,12 @@ namespace GymApp.ViewModels.Members_Info
             }
         }
 
-        // ✅ Cải thiện LoadPackages method
+        // Cải thiện LoadPackages method
         private void LoadPackages()
         {
             try
             {
-                // ✅ Clear existing items safely
+                // Clear existing items safely
                 if (Packages != null)
                     Packages.Clear();
                 else
@@ -151,32 +151,25 @@ namespace GymApp.ViewModels.Members_Info
                     Packages.Add(package);
                 }
 
-                // ✅ Debug info
+                // Debug info
                 System.Diagnostics.Debug.WriteLine($"Loaded {Packages.Count} packages");
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Lỗi tải danh sách gói tập: {ex.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
 
-                // ✅ Ensure Packages is not null even on error
+                // Ensure Packages is not null even on error
                 if (Packages == null)
                     Packages = new ObservableCollection<Models.Packages>();
             }
         }
 
-        // ❌ CURRENT CODE có vấn đề với Oracle RETURNING syntax:
-        string memberSql = @"INSERT INTO Members (FullName, Phone, Email, Gender, DateOfBirth, Address, 
-                    JoinDate, IsActive, Notes, CreatedDate, UpdatedDate) 
-                    VALUES (:fullName, :phone, :email, :gender, :dateOfBirth, :address, 
-                    :joinDate, :isActive, :notes, :createdDate, :updatedDate)
-                    RETURNING Id INTO :memberId"; // ❌ Syntax này không work với Oracle .NET
-
-        // ✅ FIX: Sử dụng cách lấy ID khác
+        // FIX: Sử dụng cách lấy ID khác
         private void SaveMemberWithMembership()
         {
             try
             {
-                // ✅ FIX: Validate trước khi thực hiện
+                // FIX: Validate trước khi thực hiện
                 if (string.IsNullOrWhiteSpace(NewMember?.FullName))
                 {
                     MessageBox.Show("Vui lòng nhập họ tên!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -207,7 +200,7 @@ namespace GymApp.ViewModels.Members_Info
                 using var transaction = connection.BeginTransaction();
                 try
                 {
-                    // ✅ Get next ID trước khi insert
+                    // Get next ID trước khi insert
                     string getNextIdSql = "SELECT NVL(MAX(Id), 0) + 1 FROM Members";
                     int memberId;
                     using (var getIdCmd = new OracleCommand(getNextIdSql, connection))
@@ -217,7 +210,7 @@ namespace GymApp.ViewModels.Members_Info
                         memberId = result != null ? Convert.ToInt32(result) : 1;
                     }
 
-                    // ✅ Insert Member với ID cụ thể
+                    // Insert Member với ID cụ thể
                     string memberSql = @"INSERT INTO Members (Id, FullName, Phone, Email, Gender, DateOfBirth, Address, 
                        JoinDate, IsActive, Notes, CreatedDate, UpdatedDate) 
                        VALUES (:id, :fullName, :phone, :email, :gender, :dateOfBirth, :address, 
@@ -242,7 +235,7 @@ namespace GymApp.ViewModels.Members_Info
                         memberCmd.ExecuteNonQuery();
                     }
 
-                    // ✅ Insert MembershipCard
+                    // Insert MembershipCard
                     string membershipSql = @"INSERT INTO MembershipCards (MemberId, PackageId, StartDate, EndDate, Price, 
                            PaymentMethod, Status, Notes, CreatedDate, CreatedBy) 
                            VALUES (:memberId, :packageId, :startDate, :endDate, :price, 
