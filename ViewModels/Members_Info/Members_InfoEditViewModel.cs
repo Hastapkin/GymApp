@@ -177,21 +177,32 @@ namespace GymApp.ViewModels.Members_Info
                     using var transaction = connection.BeginTransaction();
                     try
                     {
-                        // ✅ Tìm thẻ tập theo MemberId và EndDate cụ thể
+                        // ✅ FIX: Tìm thẻ tập theo MemberId và EndDate
                         string getMembershipSql = @"SELECT Id, Price FROM MembershipCards 
-                                                   WHERE MemberId = :memberId 
-                                                   AND EndDate = :currentEndDate 
-                                                   AND Status = 'Hoạt động'
-                                                   ORDER BY Id DESC 
-                                                   FETCH FIRST 1 ROWS ONLY";
+                                           WHERE MemberId = :memberId 
+                                           AND EndDate = :currentEndDate 
+                                           AND Status = :status
+                                           ORDER BY Id DESC 
+                                           FETCH FIRST 1 ROWS ONLY";
 
                         int membershipCardId = 0;
                         decimal currentPrice = 0;
                         using (var getCmd = new OracleCommand(getMembershipSql, connection))
                         {
                             getCmd.Transaction = transaction;
-                            getCmd.Parameters.Add(":memberId", MemberInfo.Id);
-                            getCmd.Parameters.Add(":currentEndDate", MemberInfo.EndDate);
+
+                            // ✅ FIX: Sử dụng OracleDbType để tránh character set mismatch
+                            var memberIdParam = new Oracle.ManagedDataAccess.Client.OracleParameter(":memberId", Oracle.ManagedDataAccess.Client.OracleDbType.Int32);
+                            memberIdParam.Value = MemberInfo.Id;
+                            getCmd.Parameters.Add(memberIdParam);
+
+                            var endDateParam = new Oracle.ManagedDataAccess.Client.OracleParameter(":currentEndDate", Oracle.ManagedDataAccess.Client.OracleDbType.Date);
+                            endDateParam.Value = MemberInfo.EndDate;
+                            getCmd.Parameters.Add(endDateParam);
+
+                            var statusParam = new Oracle.ManagedDataAccess.Client.OracleParameter(":status", Oracle.ManagedDataAccess.Client.OracleDbType.NVarchar2);
+                            statusParam.Value = "Hoạt động";
+                            getCmd.Parameters.Add(statusParam);
 
                             using var reader = getCmd.ExecuteReader();
                             if (reader.Read())
@@ -203,32 +214,51 @@ namespace GymApp.ViewModels.Members_Info
 
                         if (membershipCardId > 0)
                         {
-                            // ✅ Update thẻ tập hiện tại
+                            // ✅ FIX: Update thẻ tập với explicit parameter types
                             string updateSql = @"UPDATE MembershipCards 
-                                               SET EndDate = :newEndDate, 
-                                                   Price = :newPrice,
-                                                   Notes = COALESCE(Notes, '') || ' | Gia hạn ' || :extensionDays || ' ngày (' || TO_CHAR(SYSDATE, 'DD/MM/YYYY') || ') - Phí: ' || :extensionPrice || ' VNĐ'
-                                               WHERE Id = :membershipId";
+                                       SET EndDate = :newEndDate, 
+                                           Price = :newPrice,
+                                           Notes = NVL(Notes, '') || :extensionNote
+                                       WHERE Id = :membershipId";
 
                             using var updateCmd = new OracleCommand(updateSql, connection);
                             updateCmd.Transaction = transaction;
-                            updateCmd.Parameters.Add(":newEndDate", NewEndDate);
-                            updateCmd.Parameters.Add(":newPrice", currentPrice + ExtensionPrice);
-                            updateCmd.Parameters.Add(":extensionDays", ExtensionDays);
-                            updateCmd.Parameters.Add(":extensionPrice", ExtensionPrice);
-                            updateCmd.Parameters.Add(":membershipId", membershipCardId);
+
+                            // ✅ FIX: Explicit parameter binding
+                            var newEndDateParam = new Oracle.ManagedDataAccess.Client.OracleParameter(":newEndDate", Oracle.ManagedDataAccess.Client.OracleDbType.Date);
+                            newEndDateParam.Value = NewEndDate;
+                            updateCmd.Parameters.Add(newEndDateParam);
+
+                            var newPriceParam = new Oracle.ManagedDataAccess.Client.OracleParameter(":newPrice", Oracle.ManagedDataAccess.Client.OracleDbType.Decimal);
+                            newPriceParam.Value = currentPrice + ExtensionPrice;
+                            updateCmd.Parameters.Add(newPriceParam);
+
+                            var extensionNoteParam = new Oracle.ManagedDataAccess.Client.OracleParameter(":extensionNote", Oracle.ManagedDataAccess.Client.OracleDbType.NVarchar2);
+                            extensionNoteParam.Value = $" | Gia hạn {ExtensionDays} ngày ({DateTime.Now:dd/MM/yyyy}) - Phí: {ExtensionPrice:N0} VNĐ";
+                            updateCmd.Parameters.Add(extensionNoteParam);
+
+                            var membershipIdParam = new Oracle.ManagedDataAccess.Client.OracleParameter(":membershipId", Oracle.ManagedDataAccess.Client.OracleDbType.Int32);
+                            membershipIdParam.Value = membershipCardId;
+                            updateCmd.Parameters.Add(membershipIdParam);
 
                             int rowsAffected = updateCmd.ExecuteNonQuery();
                             if (rowsAffected > 0)
                             {
-                                // ✅ Log gia hạn
+                                // ✅ FIX: Log gia hạn với explicit parameters
                                 string logSql = @"INSERT INTO CheckInLog (MemberId, CheckInTime, Notes) 
-                                                VALUES (:memberId, SYSDATE, :notes)";
+                                        VALUES (:memberId, SYSDATE, :notes)";
 
                                 using var logCmd = new OracleCommand(logSql, connection);
                                 logCmd.Transaction = transaction;
-                                logCmd.Parameters.Add(":memberId", MemberInfo.Id);
-                                logCmd.Parameters.Add(":notes", $"Gia hạn thẻ tập {ExtensionDays} ngày - Phí: {ExtensionPrice:N0} VNĐ");
+
+                                var logMemberIdParam = new Oracle.ManagedDataAccess.Client.OracleParameter(":memberId", Oracle.ManagedDataAccess.Client.OracleDbType.Int32);
+                                logMemberIdParam.Value = MemberInfo.Id;
+                                logCmd.Parameters.Add(logMemberIdParam);
+
+                                var logNotesParam = new Oracle.ManagedDataAccess.Client.OracleParameter(":notes", Oracle.ManagedDataAccess.Client.OracleDbType.NVarchar2);
+                                logNotesParam.Value = $"Gia hạn thẻ tập {ExtensionDays} ngày - Phí: {ExtensionPrice:N0} VNĐ";
+                                logCmd.Parameters.Add(logNotesParam);
+
                                 logCmd.ExecuteNonQuery();
 
                                 transaction.Commit();
