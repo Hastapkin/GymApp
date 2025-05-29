@@ -350,8 +350,6 @@ The system comes with sample data:
 
 <div align="center">
 
-**[⬆ Back to top](#️-gymapp---gym-management-system)**
-
 Made with ❤️ by **Hastapkin**
 
 *If this project is helpful, please give me a ⭐!*
