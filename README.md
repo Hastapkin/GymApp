@@ -3,7 +3,6 @@
 [![.NET](https://img.shields.io/badge/.NET-8.0-blue)](https://dotnet.microsoft.com/download)
 [![WPF](https://img.shields.io/badge/WPF-XAML-purple)](https://docs.microsoft.com/en-us/dotnet/desktop/wpf/)
 [![Oracle](https://img.shields.io/badge/Oracle-Database-red)](https://www.oracle.com/database/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 > A modern gym management system built with WPF and Oracle Database. Comprehensive solution for managing members, memberships, staff, and analytics reporting.
 
